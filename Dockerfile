@@ -16,7 +16,7 @@ FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
-COPY --from=build /app/target/backEndMobile-*.jar backend-mobile.jar
+COPY --from=build /app/target/BitHealth-*.jar backend-mobile.jar
 
 ENV JAVA_OPTS="-Xms256m -Xmx512m"
 
