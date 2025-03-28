@@ -7,23 +7,19 @@ import br.com.bitwise.bithealth.modules.unidadeSaude.model.UnidadeSaude;
 import br.com.bitwise.bithealth.modules.unidadeSaude.repository.UnidadeSaudeRepository;
 import br.com.bitwise.bithealth.modules.unidadeSaude.services.mapper.UnidadeSaudeMapper;
 import br.com.bitwise.bithealth.utils.encryptId.CriptIdUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UnidadeSaudeService {
 
-    private UnidadeSaudeRepository unidadeSaudeRepository;
-    private UnidadeSaudeMapper mapperUnidadeSaude;
-    private CriptIdUtils criptIdUtils;
-
-    public UnidadeSaudeService(UnidadeSaudeRepository unidadeSaudeRepository, UnidadeSaudeMapper mapperUnidadeSaude, CriptIdUtils criptIdUtils) {
-        this.unidadeSaudeRepository = unidadeSaudeRepository;
-        this.mapperUnidadeSaude = mapperUnidadeSaude;
-        this.criptIdUtils = criptIdUtils;
-    }
+    private final UnidadeSaudeRepository unidadeSaudeRepository;
+    private final UnidadeSaudeMapper mapperUnidadeSaude;
+    private final CriptIdUtils criptIdUtils;
 
     public UnidadeSaudeResponse createUnidadeSaude(UnidadeSaudeRequest unidadeSaudeRequest) {
         UnidadeSaude UnidadeSaude = mapperUnidadeSaude.requestToModel(unidadeSaudeRequest);

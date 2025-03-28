@@ -14,14 +14,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/unidades-saude")
+@RequiredArgsConstructor
 @Tag(name = "Unidades de Saúde")
 public class UnidadeSaudeController {
 
-    private UnidadeSaudeService unidadeSaudeService;
-
-    public UnidadeSaudeController(UnidadeSaudeService unidadeSaudeService) {
-        this.unidadeSaudeService = unidadeSaudeService;
-    }
+    private final UnidadeSaudeService unidadeSaudeService;
 
     @GetMapping("/")
     public ResponseEntity<List<UnidadeSaudeResponse>> getAllUnidades() {
