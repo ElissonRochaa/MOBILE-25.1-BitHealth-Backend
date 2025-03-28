@@ -2,6 +2,7 @@ package br.com.bitwise.bithealth.modules.user.service;
 
 import br.com.bitwise.bithealth.modules.user.dto.LoginRequestDTO;
 import br.com.bitwise.bithealth.modules.user.dto.LoginResponseDTO;
+import br.com.bitwise.bithealth.modules.user.exceptions.MismatchPasswordOrEmail;
 import br.com.bitwise.bithealth.modules.user.model.Usuario;
 import br.com.bitwise.bithealth.modules.user.repository.UsuarioRepository;
 import io.jsonwebtoken.Jwts;
@@ -44,7 +45,7 @@ public class AuthenticationService {
             }
         }
 
-        throw new RuntimeException("Credenciais inválidas");
+        throw new MismatchPasswordOrEmail("Credenciais inválidas");
     }
 
     private String generateJwtToken(Usuario usuario) {
