@@ -1,6 +1,5 @@
 package br.com.bitwise.bithealth.modules.user.service;
 
-import br.com.bitwise.bithealth.modules.user.dto.MensagemRespostaDTO;
 import br.com.bitwise.bithealth.modules.user.dto.RegistroUsuarioDTO;
 import br.com.bitwise.bithealth.modules.user.dto.UsuarioDTO;
 import br.com.bitwise.bithealth.modules.user.exceptions.CPFAlreadyExistsException;
@@ -22,7 +21,7 @@ public class RegistroService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public MensagemRespostaDTO registrarNovoUsuario(RegistroUsuarioDTO registroDTO) {
+    public UsuarioDTO registrarNovoUsuario(RegistroUsuarioDTO registroDTO) {
         if (usuarioRepository.existsByEmail(registroDTO.email())) {
             throw new EmailAlreadyExistsException("Email já cadastrado");
         }
@@ -35,7 +34,8 @@ public class RegistroService {
         usuario.setSenha(passwordEncoder.encode(registroDTO.senha()));
         usuario.setAtivo(true);
 
-        usuarioRepository.save(usuario);
-        return MensagemRespostaDTO.sucesso("Usuário cadastrado com sucesso");
+        Usuario usuarioSalvo = usuarioRepository.save(usuario);
+        return usuarioMapper.toDto(usuarioSalvo);
+
     }
 }

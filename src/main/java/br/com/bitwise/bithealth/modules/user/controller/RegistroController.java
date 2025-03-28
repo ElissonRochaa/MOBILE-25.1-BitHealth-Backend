@@ -23,10 +23,10 @@ public class RegistroController {
     @PostMapping("/registro")
     public ResponseEntity<?> registrarUsuario(@Valid @RequestBody RegistroUsuarioDTO registroDTO) {
         try {
-            UsuarioDTO usuarioRegistrado = registroService.registrarNovoUsuario(registroDTO);
+            registroService.registrarNovoUsuario(registroDTO);
             return ResponseEntity
                     .status(HttpStatus.CREATED)
-                    .body(usuarioRegistrado);
+                    .body("Usuário registrado");
         } catch (RuntimeException e) {
             return ResponseEntity
                     .status(HttpStatus.CONFLICT)
