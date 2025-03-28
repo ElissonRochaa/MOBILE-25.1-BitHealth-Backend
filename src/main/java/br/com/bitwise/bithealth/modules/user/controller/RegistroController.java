@@ -1,6 +1,7 @@
 package br.com.bitwise.bithealth.modules.user.controller;
 
 import br.com.bitwise.bithealth.modules.user.dto.RegistroUsuarioDTO;
+import br.com.bitwise.bithealth.modules.user.dto.UsuarioDTO;
 import br.com.bitwise.bithealth.modules.user.model.Usuario;
 import br.com.bitwise.bithealth.modules.user.service.RegistroService;
 import jakarta.validation.Valid;
@@ -25,7 +26,7 @@ public class RegistroController {
     @PostMapping("/registro")
     public ResponseEntity<?> registrarUsuario(@Valid @RequestBody RegistroUsuarioDTO registroDTO) {
         try {
-            Usuario usuarioRegistrado = registroService.registrarNovoUsuario(registroDTO);
+            UsuarioDTO usuarioRegistrado = registroService.registrarNovoUsuario(registroDTO);
             return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body(usuarioRegistrado);
