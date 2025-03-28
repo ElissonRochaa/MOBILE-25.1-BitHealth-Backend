@@ -3,12 +3,12 @@ package br.com.bitwise.bithealth.modules.user.dto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-@Data
-public class LoginRequestDTO {
+public record LoginRequestDTO(
 
-    @NotBlank(message = "Email é obrigatório")
-    private String email;
+        @NotBlank(message = "Email é obrigatório")
+        String email,
 
-    @NotBlank(message = "Senha é obrigatória")
-    private String senha;
+        @NotBlank(message = "Senha é obrigatória")
+        String senha
+) {
 }

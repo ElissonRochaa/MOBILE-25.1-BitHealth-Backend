@@ -5,6 +5,7 @@ import br.com.bitwise.bithealth.modules.user.dto.LoginResponseDTO;
 import br.com.bitwise.bithealth.modules.user.model.Usuario;
 import br.com.bitwise.bithealth.modules.user.repository.UsuarioRepository;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,33 +17,33 @@ import java.util.Optional;
 
 @Service
 public class AuthenticationService {
-    @Autowired
+
     private Key jwtSecretKey;
-
-    @Autowired
     private UsuarioRepository usuarioRepository;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
+
+    public AuthenticationService(Key jwtSecretKey, UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+        this.jwtSecretKey = jwtSecretKey;
+        this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     private final long EXPIRATION_TIME = 864_000_000;
 
     public LoginResponseDTO authenticate(LoginRequestDTO loginRequest) {
-        Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(loginRequest.getEmail());
+        Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(loginRequest.email());
 
         if (usuarioOptional.isPresent()) {
             Usuario usuario = usuarioOptional.get();
 
-            if (passwordEncoder.matches(loginRequest.getSenha(), usuario.getSenha())) {
+            if (passwordEncoder.matches(loginRequest.senha(), usuario.getSenha())) {
                 String token = generateJwtToken(usuario);
 
-                LoginResponseDTO response = new LoginResponseDTO();
-                response.setId(usuario.getId());
-                response.setNome(usuario.getNome());
-                response.setEmail(usuario.getEmail());
-                response.setToken(token);
-
-                return response;
+                return new LoginResponseDTO(
+                        usuario.getNome(),
+                        usuario.getEmail(),
+                        token
+                );
             }
         }
 

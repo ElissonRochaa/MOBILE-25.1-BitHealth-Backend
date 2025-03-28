@@ -4,10 +4,9 @@ import lombok.Data;
 
 import java.util.UUID;
 
-@Data
-public class LoginResponseDTO {
-    private UUID id;
-    private String nome;
-    private String email;
-    private String token;
+public record LoginResponseDTO(
+        String nome,
+        String email,
+        String token
+) {
 }

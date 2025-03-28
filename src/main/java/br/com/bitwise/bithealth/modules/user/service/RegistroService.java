@@ -4,37 +4,41 @@ import br.com.bitwise.bithealth.modules.user.dto.RegistroUsuarioDTO;
 import br.com.bitwise.bithealth.modules.user.model.Usuario;
 import br.com.bitwise.bithealth.modules.user.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RegistroService {
-    @Autowired
-    private UsuarioRepository usuarioRepository;
 
-    @Autowired
+    private UsuarioRepository usuarioRepository;
     private PasswordEncoder passwordEncoder;
+
+    public RegistroService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+        this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Transactional
     public Usuario registrarNovoUsuario(RegistroUsuarioDTO registroDTO) {
-        if (usuarioRepository.existsByEmail(registroDTO.getEmail())) {
+        if (usuarioRepository.existsByEmail(registroDTO.email())) {
             throw new RuntimeException("Email já cadastrado");
         }
 
-        if (usuarioRepository.existsByCpf(registroDTO.getCpf())) {
+        if (usuarioRepository.existsByCpf(registroDTO.cpf())) {
             throw new RuntimeException("CPF já cadastrado");
         }
 
         Usuario novoUsuario = new Usuario();
-        novoUsuario.setNome(registroDTO.getNome());
-        novoUsuario.setSobrenome(registroDTO.getSobrenome());
-        novoUsuario.setCpf(registroDTO.getCpf());
-        novoUsuario.setEmail(registroDTO.getEmail());
+        novoUsuario.setNome(registroDTO.nome());
+        novoUsuario.setSobrenome(registroDTO.sobrenome());
+        novoUsuario.setCpf(registroDTO.cpf());
+        novoUsuario.setEmail(registroDTO.email());
 
-        novoUsuario.setSenha(passwordEncoder.encode(registroDTO.getSenha()));
+        novoUsuario.setSenha(passwordEncoder.encode(registroDTO.senha()));
 
-        novoUsuario.setTipoUsuario(registroDTO.getTipoUsuario());
+        novoUsuario.setTipoUsuario(registroDTO.tipoUsuario());
 
         novoUsuario.setAtivo(true);
 
