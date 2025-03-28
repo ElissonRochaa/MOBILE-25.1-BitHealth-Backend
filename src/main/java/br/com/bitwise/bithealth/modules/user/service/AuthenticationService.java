@@ -5,6 +5,7 @@ import br.com.bitwise.bithealth.modules.user.dto.LoginResponseDTO;
 import br.com.bitwise.bithealth.modules.user.exceptions.MismatchPasswordOrEmail;
 import br.com.bitwise.bithealth.modules.user.model.Usuario;
 import br.com.bitwise.bithealth.modules.user.repository.UsuarioRepository;
+import br.com.bitwise.bithealth.security.TokenService;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,10 +19,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
-    private final Key jwtSecretKey;
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
-    private final long EXPIRATION_TIME = 864_000_000;
+    private final TokenService tokenService;
 
     public LoginResponseDTO authenticate(LoginRequestDTO loginRequest) {
         Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(loginRequest.email());
@@ -30,7 +30,7 @@ public class AuthenticationService {
             Usuario usuario = usuarioOptional.get();
 
             if (passwordEncoder.matches(loginRequest.senha(), usuario.getSenha())) {
-                String token = generateJwtToken(usuario);
+                String token = tokenService.generateToken(usuario);
 
                 return new LoginResponseDTO(
                         usuario.getNome(),
@@ -41,16 +41,5 @@ public class AuthenticationService {
         }
 
         throw new MismatchPasswordOrEmail("Credenciais inválidas");
-    }
-
-    private String generateJwtToken(Usuario usuario) {
-        return Jwts.builder()
-                .setSubject(usuario.getEmail())
-                .claim("userId", usuario.getId())
-                .claim("userType", usuario.getTipoUsuario())
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(jwtSecretKey)
-                .compact();
     }
 }
