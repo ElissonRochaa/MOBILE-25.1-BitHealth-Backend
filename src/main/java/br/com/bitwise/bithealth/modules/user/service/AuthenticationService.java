@@ -4,12 +4,9 @@ import br.com.bitwise.bithealth.modules.user.dto.LoginRequestDTO;
 import br.com.bitwise.bithealth.modules.user.dto.LoginResponseDTO;
 import br.com.bitwise.bithealth.modules.user.model.Usuario;
 import br.com.bitwise.bithealth.modules.user.repository.UsuarioRepository;
-import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.jsonwebtoken.Jwts;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import io.jsonwebtoken.Jwts;
 
 import java.security.Key;
 import java.util.Date;

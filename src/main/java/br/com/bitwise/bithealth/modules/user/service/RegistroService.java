@@ -4,8 +4,6 @@ import br.com.bitwise.bithealth.modules.user.dto.RegistroUsuarioDTO;
 import br.com.bitwise.bithealth.modules.user.model.Usuario;
 import br.com.bitwise.bithealth.modules.user.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
