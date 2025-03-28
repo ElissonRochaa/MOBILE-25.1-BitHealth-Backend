@@ -1,5 +1,6 @@
 package br.com.bitwise.bithealth.modules.user.handler;
 
+import br.com.bitwise.bithealth.modules.user.exceptions.UserGenerateTokenException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -29,6 +30,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeExceptions(RuntimeException ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ex.getMessage());
+    }
+
+    @ExceptionHandler(UserGenerateTokenException.class)
+    public ResponseEntity<String> handleUserGenerateTokenException(UserGenerateTokenException ex) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(ex.getMessage());
