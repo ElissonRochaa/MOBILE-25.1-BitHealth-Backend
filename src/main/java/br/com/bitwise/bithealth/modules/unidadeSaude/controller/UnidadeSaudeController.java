@@ -14,7 +14,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/unidades-saude")
+@RequestMapping("api/unidades-saude")
 @RequiredArgsConstructor
 @Tag(name = "Unidades de Saúde")
 public class UnidadeSaudeController {
