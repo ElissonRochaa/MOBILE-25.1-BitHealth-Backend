@@ -1,5 +1,6 @@
 package br.com.bitwise.bithealth.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,10 +14,10 @@ import java.security.Key;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
-    @Autowired
-    private Key jwtSecretKey;
+    private final Key jwtSecretKey;
 
     @Bean
     public PasswordEncoder passwordEncoder() {

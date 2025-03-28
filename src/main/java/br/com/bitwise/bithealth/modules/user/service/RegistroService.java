@@ -10,15 +10,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class RegistroService {
 
-    private UsuarioRepository usuarioRepository;
-    private PasswordEncoder passwordEncoder;
-
-    public RegistroService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
-        this.usuarioRepository = usuarioRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public Usuario registrarNovoUsuario(RegistroUsuarioDTO registroDTO) {

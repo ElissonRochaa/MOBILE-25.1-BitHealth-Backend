@@ -15,12 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class RegistroController {
-    private  RegistroService registroService;
-
-    public RegistroController(RegistroService registroService) {
-        this.registroService = registroService;
-    }
+    private  final RegistroService registroService;
 
     @PostMapping("/registro")
     public ResponseEntity<?> registrarUsuario(@Valid @RequestBody RegistroUsuarioDTO registroDTO) {

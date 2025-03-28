@@ -9,13 +9,10 @@ import java.security.Key;
 import java.util.Date;
 
 @Component
+@RequiredArgsConstructor
 public class CriptIdUtils {
 
-    private Key jwtSecretKey;
-
-    public CriptIdUtils(Key jwtSecretKey) {
-        this.jwtSecretKey = jwtSecretKey;
-    }
+    private final Key jwtSecretKey;
 
     public String decodeToken(String token) {
         return Jwts.parser()

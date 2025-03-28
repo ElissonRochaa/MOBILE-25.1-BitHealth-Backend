@@ -16,18 +16,12 @@ import java.util.Date;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class AuthenticationService {
 
-    private Key jwtSecretKey;
-    private UsuarioRepository usuarioRepository;
-    private PasswordEncoder passwordEncoder;
-
-    public AuthenticationService(Key jwtSecretKey, UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
-        this.jwtSecretKey = jwtSecretKey;
-        this.usuarioRepository = usuarioRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
-
+    private final Key jwtSecretKey;
+    private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
     private final long EXPIRATION_TIME = 864_000_000;
 
     public LoginResponseDTO authenticate(LoginRequestDTO loginRequest) {
