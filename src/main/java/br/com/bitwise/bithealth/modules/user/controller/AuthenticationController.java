@@ -2,10 +2,11 @@ package br.com.bitwise.bithealth.modules.user.controller;
 
 import br.com.bitwise.bithealth.modules.user.dto.LoginRequestDTO;
 import br.com.bitwise.bithealth.modules.user.dto.LoginResponseDTO;
+import br.com.bitwise.bithealth.modules.user.exceptions.MismatchPasswordOrEmail;
 import br.com.bitwise.bithealth.modules.user.service.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +22,11 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO loginRequest) {
-        LoginResponseDTO response = authenticationService.authenticate(loginRequest);
-        return ResponseEntity.ok(response);
+        try {
+            LoginResponseDTO response = authenticationService.authenticate(loginRequest);
+            return ResponseEntity.ok(response);
+        } catch (MismatchPasswordOrEmail e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 }
