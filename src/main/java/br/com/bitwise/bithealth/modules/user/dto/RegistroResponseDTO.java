@@ -1,8 +1,7 @@
 package br.com.bitwise.bithealth.modules.user.dto;
 
-public record LoginResponseDTO(
+public record RegistroResponseDTO(
         String nome,
-        String email,
         String token
 ) {
 }

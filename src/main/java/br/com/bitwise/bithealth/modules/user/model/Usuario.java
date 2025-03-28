@@ -42,4 +42,13 @@ public class Usuario {
 
     @Column(nullable = false)
     private LocalDateTime criadoEm = LocalDateTime.now();
+
+    public Usuario(String nome, String sobrenome, String cpf, String email, String senha, TipoUsuario tipoUsuario) {
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.cpf = cpf;
+        this.email = email;
+        this.senha = senha;
+        this.tipoUsuario = tipoUsuario;
+    }
 }

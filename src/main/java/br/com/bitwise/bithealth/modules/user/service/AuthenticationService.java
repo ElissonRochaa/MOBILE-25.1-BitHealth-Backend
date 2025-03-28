@@ -2,14 +2,13 @@ package br.com.bitwise.bithealth.modules.user.service;
 
 import br.com.bitwise.bithealth.modules.user.dto.LoginRequestDTO;
 import br.com.bitwise.bithealth.modules.user.dto.LoginResponseDTO;
+import br.com.bitwise.bithealth.modules.user.exceptions.MismatchPasswordOrEmail;
 import br.com.bitwise.bithealth.modules.user.model.Usuario;
 import br.com.bitwise.bithealth.modules.user.repository.UsuarioRepository;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import io.jsonwebtoken.Jwts;
 
 import java.security.Key;
 import java.util.Date;
@@ -41,7 +40,7 @@ public class AuthenticationService {
             }
         }
 
-        throw new RuntimeException("Credenciais inválidas");
+        throw new MismatchPasswordOrEmail("Credenciais inválidas");
     }
 
     private String generateJwtToken(Usuario usuario) {

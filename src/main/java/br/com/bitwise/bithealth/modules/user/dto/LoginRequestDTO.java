@@ -1,7 +1,6 @@
 package br.com.bitwise.bithealth.modules.user.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
 
 public record LoginRequestDTO(
 
