@@ -9,6 +9,9 @@ import br.com.bitwise.bithealth.security.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class ServicosSaudeServices {
@@ -17,12 +20,28 @@ public class ServicosSaudeServices {
     private final MapperServicosSaude mapperServicosSaude;
     private final TokenService tokenService;
 
-    public ServicosSaudeResponse criarServicoSaude(ServicosSaudeRequest servicosSaudeRequest) {
+    public ServicosSaudeResponse createServicosSaude(ServicosSaudeRequest servicosSaudeRequest) {
         ServicosSaude servicosSaude = mapperServicosSaude.requestToModel(servicosSaudeRequest);
         ServicosSaude servicosSaudeSalvo = servicosSaudeRepository.save(servicosSaude);
 
         String tokenId = tokenService.generateTokenId(String.valueOf(servicosSaudeSalvo.getId()));
 
         return mapperServicosSaude.modelToResponse(servicosSaudeSalvo, tokenId);
+    }
+
+    public List<ServicosSaudeResponse> getAllServicosSaude() {
+        List<ServicosSaude> servicosSaudeList = servicosSaudeRepository.findAll();
+        return servicosSaudeList.stream()
+                .map(servicosSaude -> mapperServicosSaude.modelToResponse(
+                        servicosSaude,
+                        tokenService.generateTokenId(String.valueOf(servicosSaude.getId()
+                        )))
+                )
+                .toList();
+    }
+
+    public void deleteServicosSaude(String tokenId) {
+        String id = tokenService.decodeToken(tokenId);
+        servicosSaudeRepository.deleteById(UUID.fromString(id));
     }
 }
