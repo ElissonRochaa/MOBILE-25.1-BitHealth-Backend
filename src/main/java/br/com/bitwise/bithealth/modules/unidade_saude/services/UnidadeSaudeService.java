@@ -34,10 +34,10 @@ public class UnidadeSaudeService {
         }
 
         UnidadeSaude UnidadeSaude = mapperUnidadeSaude.requestToModel(unidadeSaudeRequest);
-        UnidadeSaude UnidadeSaudeSaved = unidadeSaudeRepository.save(UnidadeSaude);
-        String tokenId = tokenService.generateTokenId(String.valueOf(UnidadeSaudeSaved.getId()));
+        UnidadeSaude = unidadeSaudeRepository.save(UnidadeSaude);
+        String tokenId = tokenService.generateTokenId(String.valueOf(UnidadeSaude.getId()));
 
-        return mapperUnidadeSaude.modelToResponse(UnidadeSaudeSaved, tokenId);
+        return mapperUnidadeSaude.modelToResponse(UnidadeSaude, tokenId);
     }
 
     public UnidadeSaude getUnidadeSaudeById(String tokenId) {
