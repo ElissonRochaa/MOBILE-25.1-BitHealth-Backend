@@ -1,6 +1,6 @@
-package br.com.bitwise.bithealth.modules.unidadeSaude.model;
+package br.com.bitwise.bithealth.modules.unidade_saude.model;
 
-import br.com.bitwise.bithealth.modules.unidadeSaude.model.ENUMS.TipoUnidade;
+import br.com.bitwise.bithealth.modules.unidade_saude.model.ENUMS.TipoUnidade;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
