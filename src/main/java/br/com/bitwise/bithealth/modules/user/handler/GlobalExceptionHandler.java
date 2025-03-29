@@ -3,7 +3,9 @@ package br.com.bitwise.bithealth.modules.user.handler;
 import br.com.bitwise.bithealth.modules.user.dto.MensagemRespostaDTO;
 import br.com.bitwise.bithealth.modules.user.exceptions.CPFAlreadyExistsException;
 import br.com.bitwise.bithealth.modules.user.exceptions.EmailAlreadyExistsException;
+import br.com.bitwise.bithealth.modules.user.exceptions.NumeroTelefoneAlreadyExistsException;
 import br.com.bitwise.bithealth.modules.user.exceptions.UserGenerateTokenException;
+import jdk.jfr.Experimental;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -58,6 +60,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
                 .body(MensagemRespostaDTO.erro(ex.getMessage()));
+    }
+
+    @ExceptionHandler(NumeroTelefoneAlreadyExistsException.class)
+    public ResponseEntity<String> handleNumeroTelefoneAlreadyExists(NumeroTelefoneAlreadyExistsException ex) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(ex.getMessage());
     }
 
 
