@@ -16,7 +16,7 @@ public class MapperServicosSaude {
     private final UnidadeSaudeService unidadeServices;
 
     public ServicosSaude requestToModel(ServicosSaudeRequest servicosSaudeRequest) {
-        UnidadeSaude unidadeSaude  = unidadeServices.getUnidadeSaudeById(servicosSaudeRequest.unidadeSaudeId());
+        UnidadeSaude unidadeSaude  = unidadeServices.getUnidadeSaudeById(servicosSaudeRequest.unidadeSaudeTokenId());
 
         return new ServicosSaude(
                 servicosSaudeRequest.nome(),
