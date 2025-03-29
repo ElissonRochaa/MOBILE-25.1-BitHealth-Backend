@@ -1,6 +1,8 @@
 package br.com.bitwise.bithealth.modules.user.dto;
 
+import br.com.bitwise.bithealth.modules.user.endereco.dto.EnderecoDTO;
 import br.com.bitwise.bithealth.modules.user.model.ENUM.TipoUsuario;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -25,6 +27,10 @@ public record RegistroUsuarioDTO(
         @NotNull(message = "Tipo de usuário é obrigatório")
         TipoUsuario tipoUsuario,
         @NotNull(message = "Número de telefone é obrigatório")
-        String numeroTelefone
+        String numeroTelefone,
+        @NotNull(message = "O endereço é obrigatório")
+        @Valid
+        EnderecoDTO endereco
+
 ) {
 }
