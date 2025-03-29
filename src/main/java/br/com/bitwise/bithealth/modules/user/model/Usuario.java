@@ -1,5 +1,6 @@
 package br.com.bitwise.bithealth.modules.user.model;
 
+import br.com.bitwise.bithealth.modules.user.endereco.model.Endereco;
 import br.com.bitwise.bithealth.modules.user.model.ENUM.TipoUsuario;
 import jakarta.persistence.*;
 import lombok.*;
@@ -46,6 +47,9 @@ public class Usuario {
     @Column(nullable = false)
     private LocalDateTime criadoEm = LocalDateTime.now();
 
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Endereco endereco;
+
     public Usuario(String nome, String sobrenome, String cpf, String email, String senha, TipoUsuario tipoUsuario, String numeroTelefone) {
         this.nome = nome;
         this.sobrenome = sobrenome;
@@ -55,4 +59,12 @@ public class Usuario {
         this.tipoUsuario = tipoUsuario;
         this.numeroTelefone = numeroTelefone;
     }
+
+    public void setEndereco(Endereco endereco) {
+        if (endereco != null) {
+            this.endereco = endereco;
+            endereco.setUsuario(this);
+        }
+    }
+
 }
