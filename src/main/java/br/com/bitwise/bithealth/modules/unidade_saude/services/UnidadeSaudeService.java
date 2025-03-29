@@ -25,10 +25,7 @@ public class UnidadeSaudeService {
     public UnidadeSaudeResponse createUnidadeSaude(UnidadeSaudeRequest unidadeSaudeRequest) {
         UnidadeSaude UnidadeSaude = mapperUnidadeSaude.requestToModel(unidadeSaudeRequest);
         UnidadeSaude UnidadeSaudeSaved = unidadeSaudeRepository.save(UnidadeSaude);
-
-        String tokenId = tokenService.generateTokenId(String.valueOf(UnidadeSaudeSaved.getId()));
-
-        return mapperUnidadeSaude.modelToResponse(UnidadeSaudeSaved, tokenId);
+        return mapperUnidadeSaude.modelToResponse(UnidadeSaudeSaved);
     }
 
     public UnidadeSaude getUnidadeSaudeById(String tokenId) {
@@ -39,7 +36,7 @@ public class UnidadeSaudeService {
     public List<UnidadeSaudeResponse> getAllUnidadeSaude() {
         List<UnidadeSaude> UnidadeSaudes = unidadeSaudeRepository.findAll();
         return UnidadeSaudes.stream()
-                .map(UnidadeSaude -> mapperUnidadeSaude.modelToResponse(UnidadeSaude, tokenService.generateTokenId(String.valueOf(UnidadeSaude.getId()))))
+                .map(mapperUnidadeSaude::modelToResponse)
                 .collect(Collectors.toList());
     }
 
