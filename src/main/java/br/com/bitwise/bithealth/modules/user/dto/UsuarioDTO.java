@@ -17,6 +17,7 @@ public record UsuarioDTO(
         String email,
         String senha,
         TipoUsuario tipoUsuario,
+        String numeroTelefone,
         Boolean ativo,
         LocalDateTime criadoEm
 ) {

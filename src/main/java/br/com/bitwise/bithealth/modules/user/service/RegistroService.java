@@ -4,6 +4,7 @@ import br.com.bitwise.bithealth.modules.user.dto.RegistroUsuarioDTO;
 import br.com.bitwise.bithealth.modules.user.dto.UsuarioDTO;
 import br.com.bitwise.bithealth.modules.user.exceptions.CPFAlreadyExistsException;
 import br.com.bitwise.bithealth.modules.user.exceptions.EmailAlreadyExistsException;
+import br.com.bitwise.bithealth.modules.user.exceptions.NumeroTelefoneAlreadyExistsException;
 import br.com.bitwise.bithealth.modules.user.mapper.UsuarioMapper;
 import br.com.bitwise.bithealth.modules.user.model.Usuario;
 import br.com.bitwise.bithealth.modules.user.repository.UsuarioRepository;
@@ -28,6 +29,10 @@ public class RegistroService {
 
         if (usuarioRepository.existsByCpf(registroDTO.cpf())) {
             throw new CPFAlreadyExistsException("CPF já cadastrado");
+        }
+
+        if (usuarioRepository.existsByNumeroTelefone(registroDTO.numeroTelefone())) {
+            throw new NumeroTelefoneAlreadyExistsException("Número de telefone já cadastrado");
         }
 
         Usuario usuario = usuarioMapper.toEntity(registroDTO);

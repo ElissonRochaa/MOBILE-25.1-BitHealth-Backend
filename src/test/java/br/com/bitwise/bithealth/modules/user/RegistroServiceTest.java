@@ -53,7 +53,8 @@ public class RegistroServiceTest {
                 "123.456.789-00",
                 "string@email.com",
                 "senhaencriptada",
-                TipoUsuario.CIDADAO
+                TipoUsuario.CIDADAO,
+                "999999999"
         );
 
         usuario = new Usuario();
@@ -72,6 +73,7 @@ public class RegistroServiceTest {
                 "string@email.com",
                 "senhaencriptada",
                 TipoUsuario.CIDADAO,
+                "9999999",
                 true,
                 LocalDateTime.now()
         );
