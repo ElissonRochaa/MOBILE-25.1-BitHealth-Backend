@@ -8,4 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface UnidadeSaudeRepository extends JpaRepository<UnidadeSaude, UUID> {
+    UnidadeSaude getByNome(String nome);
 }
