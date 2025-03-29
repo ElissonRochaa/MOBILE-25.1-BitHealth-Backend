@@ -30,7 +30,7 @@ public class UnidadeSaudeMapper {
         );
     }
 
-    public UnidadeSaudeResponse modelToResponse(UnidadeSaude unidadeSaude) {
+    public UnidadeSaudeResponse modelToResponse(UnidadeSaude unidadeSaude, String tokenId) {
         List<ServicosSaude> servicosSaudeList = servicosSaudeRepository.findByUnidadeSaudeId(unidadeSaude.getId());
 
         List<ServicosSaudeResponse> servicosSaudeResponseList = servicosSaudeList.stream()
@@ -43,8 +43,9 @@ public class UnidadeSaudeMapper {
             ))
             .collect(Collectors.toList());
 
+
         return new UnidadeSaudeResponse(
-            tokenService.generateTokenId(unidadeSaude.getId().toString()),
+            tokenId,
             unidadeSaude.getNome(),
             unidadeSaude.getTipoUnidade().toString(),
             unidadeSaude.getHorarioInicioAtendimento(),
