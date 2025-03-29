@@ -3,6 +3,7 @@ package br.com.bitwise.bithealth.modules.user;
 import br.com.bitwise.bithealth.modules.user.controller.RegistroController;
 import br.com.bitwise.bithealth.modules.user.dto.RegistroUsuarioDTO;
 import br.com.bitwise.bithealth.modules.user.dto.UsuarioDTO;
+import br.com.bitwise.bithealth.modules.user.endereco.dto.EnderecoDTO;
 import br.com.bitwise.bithealth.modules.user.exceptions.CPFAlreadyExistsException;
 import br.com.bitwise.bithealth.modules.user.exceptions.EmailAlreadyExistsException;
 import br.com.bitwise.bithealth.modules.user.model.ENUM.TipoUsuario;
@@ -36,6 +37,16 @@ public class RegistroControllerTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
+        EnderecoDTO endereco1 = new EnderecoDTO(
+                "Rua das Flores",
+                "123",
+                "Apto 101",
+                "Jardim Primavera",
+                "São Paulo",
+                "SP",
+                "01234-567"
+        );
+
         // Criando um DTO válido para testes
         validRegistroDTO = new RegistroUsuarioDTO(
                 "Teste Usuario",
@@ -44,7 +55,8 @@ public class RegistroControllerTest {
                 "senha123",
                 "11999999999",
                 TipoUsuario.CIDADAO,
-                "99999999"
+                "99999999",
+                endereco1
         );
 
         usuarioDTO = new UsuarioDTO(
@@ -57,7 +69,8 @@ public class RegistroControllerTest {
                 TipoUsuario.CIDADAO,
                 "99999999",
                 true,
-                LocalDateTime.now()
+                LocalDateTime.now(),
+                endereco1
         );
     }
 

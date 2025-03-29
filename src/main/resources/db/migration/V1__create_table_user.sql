@@ -30,7 +30,7 @@ CREATE TABLE enderecos_usuarios (
     complemento VARCHAR(100) NULL,
     bairro VARCHAR(100) NOT NULL,
     cidade VARCHAR(100) NOT NULL,
-    estado VARCHAR(2) NOT NULL,
+    estado VARCHAR(100) NOT NULL,
     cep VARCHAR(10) NOT NULL,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );

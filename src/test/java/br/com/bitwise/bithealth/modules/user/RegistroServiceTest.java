@@ -2,6 +2,9 @@ package br.com.bitwise.bithealth.modules.user;
 
 import br.com.bitwise.bithealth.modules.user.dto.RegistroUsuarioDTO;
 import br.com.bitwise.bithealth.modules.user.dto.UsuarioDTO;
+import br.com.bitwise.bithealth.modules.user.endereco.mapper.EnderecoMapper;
+import br.com.bitwise.bithealth.modules.user.endereco.dto.EnderecoDTO;
+import br.com.bitwise.bithealth.modules.user.endereco.repository.EnderecoRepository;
 import br.com.bitwise.bithealth.modules.user.exceptions.CPFAlreadyExistsException;
 import br.com.bitwise.bithealth.modules.user.exceptions.EmailAlreadyExistsException;
 import br.com.bitwise.bithealth.modules.user.mapper.UsuarioMapper;
@@ -35,6 +38,12 @@ public class RegistroServiceTest {
     @Mock
     private PasswordEncoder passwordEncoder;
 
+    @Mock
+    private EnderecoMapper enderecoMapper;
+
+    @Mock
+    private EnderecoRepository enderecoRepository;
+
     @InjectMocks
     private RegistroService registroService;
 
@@ -46,7 +55,16 @@ public class RegistroServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        // Criando objetos para teste
+        EnderecoDTO endereco1 = new EnderecoDTO(
+                "Rua das Flores",
+                "123",
+                "Apto 101",
+                "Jardim Primavera",
+                "São Paulo",
+                "SP",
+                "01234-567"
+        );
+
         validRegistroDTO = new RegistroUsuarioDTO(
                 "Teste Usuario",
                 "teste@email.com",
@@ -54,7 +72,8 @@ public class RegistroServiceTest {
                 "string@email.com",
                 "senhaencriptada",
                 TipoUsuario.CIDADAO,
-                "999999999"
+                "999999999",
+                endereco1
         );
 
         usuario = new Usuario();
@@ -75,7 +94,8 @@ public class RegistroServiceTest {
                 TipoUsuario.CIDADAO,
                 "9999999",
                 true,
-                LocalDateTime.now()
+                LocalDateTime.now(),
+                endereco1
         );
     }
 

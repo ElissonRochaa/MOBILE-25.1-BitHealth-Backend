@@ -2,6 +2,9 @@ package br.com.bitwise.bithealth.modules.user.service;
 
 import br.com.bitwise.bithealth.modules.user.dto.RegistroUsuarioDTO;
 import br.com.bitwise.bithealth.modules.user.dto.UsuarioDTO;
+import br.com.bitwise.bithealth.modules.user.endereco.mapper.EnderecoMapper;
+import br.com.bitwise.bithealth.modules.user.endereco.model.Endereco;
+import br.com.bitwise.bithealth.modules.user.endereco.repository.EnderecoRepository;
 import br.com.bitwise.bithealth.modules.user.exceptions.CPFAlreadyExistsException;
 import br.com.bitwise.bithealth.modules.user.exceptions.EmailAlreadyExistsException;
 import br.com.bitwise.bithealth.modules.user.exceptions.NumeroTelefoneAlreadyExistsException;
@@ -18,11 +21,16 @@ import org.springframework.stereotype.Service;
 public class RegistroService {
 
     private final UsuarioMapper usuarioMapper;
+    private final EnderecoMapper enderecoMapper;
+
     private final UsuarioRepository usuarioRepository;
+    private final EnderecoRepository enderecoRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public UsuarioDTO registrarNovoUsuario(RegistroUsuarioDTO registroDTO) {
+
         if (usuarioRepository.existsByEmail(registroDTO.email())) {
             throw new EmailAlreadyExistsException("Email já cadastrado");
         }
@@ -39,7 +47,12 @@ public class RegistroService {
         usuario.setSenha(passwordEncoder.encode(registroDTO.senha()));
         usuario.setAtivo(true);
 
+        Endereco endereco = enderecoMapper.toEntity(registroDTO.endereco());
+        usuario.setEndereco(endereco);
+
         Usuario usuarioSalvo = usuarioRepository.save(usuario);
+        enderecoRepository.save(endereco);
+
         return usuarioMapper.toDto(usuarioSalvo);
 
     }

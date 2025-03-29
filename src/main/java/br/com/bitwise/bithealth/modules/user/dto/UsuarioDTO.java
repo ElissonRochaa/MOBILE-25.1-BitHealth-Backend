@@ -1,10 +1,7 @@
 package br.com.bitwise.bithealth.modules.user.dto;
 
+import br.com.bitwise.bithealth.modules.user.endereco.dto.EnderecoDTO;
 import br.com.bitwise.bithealth.modules.user.model.ENUM.TipoUsuario;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -19,6 +16,7 @@ public record UsuarioDTO(
         TipoUsuario tipoUsuario,
         String numeroTelefone,
         Boolean ativo,
-        LocalDateTime criadoEm
+        LocalDateTime criadoEm,
+        EnderecoDTO endereco
 ) {
 }
