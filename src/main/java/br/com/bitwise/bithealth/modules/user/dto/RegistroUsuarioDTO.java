@@ -23,6 +23,8 @@ public record RegistroUsuarioDTO(
         @Size(min = 8, message = "Senha deve ter no mínimo 8 caracteres")
         String senha,
         @NotNull(message = "Tipo de usuário é obrigatório")
-        TipoUsuario tipoUsuario
+        TipoUsuario tipoUsuario,
+        @NotNull(message = "Número de telefone é obrigatório")
+        String numeroTelefone
 ) {
 }

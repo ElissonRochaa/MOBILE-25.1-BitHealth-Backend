@@ -8,6 +8,7 @@ CREATE TABLE usuarios (
                           email VARCHAR(150) UNIQUE NOT NULL,
                           senha VARCHAR(255) NOT NULL,
                           tipo_usuario VARCHAR(50) NOT NULL,
+                          numero_telefone VARCHAR(20) NOT NULL,
                           ativo BOOLEAN DEFAULT TRUE,
                           criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -19,14 +20,6 @@ CREATE TABLE unidades_saude (
                                 horario_inicio_atendimento VARCHAR(5) NOT NULL,
                                 horario_fim_atendimento VARCHAR(5) NOT NULL,
                                 criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE telefones_usuarios (
-                                    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-                                    usuario_id UUID NOT NULL,
-                                    numero VARCHAR(20) NOT NULL,
-                                    tipo VARCHAR(50) NOT NULL,
-                                    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
 
 CREATE TABLE enderecos_usuarios (

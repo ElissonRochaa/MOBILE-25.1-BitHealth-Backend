@@ -43,7 +43,8 @@ public class RegistroControllerTest {
                 "123.456.789-00",
                 "senha123",
                 "11999999999",
-                TipoUsuario.CIDADAO
+                TipoUsuario.CIDADAO,
+                "99999999"
         );
 
         usuarioDTO = new UsuarioDTO(
@@ -54,6 +55,7 @@ public class RegistroControllerTest {
                 "string@email.com",
                 "teste",
                 TipoUsuario.CIDADAO,
+                "99999999",
                 true,
                 LocalDateTime.now()
         );

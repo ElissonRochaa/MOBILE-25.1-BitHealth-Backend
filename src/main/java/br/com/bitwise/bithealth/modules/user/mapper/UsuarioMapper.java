@@ -14,7 +14,8 @@ public class UsuarioMapper {
                 registroDTO.cpf(),
                 registroDTO.email(),
                 registroDTO.senha(),
-                registroDTO.tipoUsuario()
+                registroDTO.tipoUsuario(),
+                registroDTO.numeroTelefone()
         );
     }
 
@@ -27,6 +28,7 @@ public class UsuarioMapper {
                 usuarioDTO.email(),
                 usuarioDTO.senha(),
                 usuarioDTO.tipoUsuario(),
+                usuarioDTO.numeroTelefone(),
                 usuarioDTO.ativo(),
                 usuarioDTO.criadoEm()
         );
@@ -41,6 +43,7 @@ public class UsuarioMapper {
                 usuario.getEmail(),
                 usuario.getSenha(),
                 usuario.getTipoUsuario(),
+                usuario.getNumeroTelefone(),
                 usuario.getAtivo(),
                 usuario.getCriadoEm()
         );
