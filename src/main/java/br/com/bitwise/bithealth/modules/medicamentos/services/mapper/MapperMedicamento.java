@@ -16,7 +16,7 @@ public class MapperMedicamento {
     private final UnidadeSaudeService unidadeServices;
 
     public Medicamento requestToModel(MedicamentoRequest medicamentoRequest) {
-        UnidadeSaude unidadeSaude = unidadeServices.getUnidadeSaudeById(medicamentoRequest.tokenId());
+        UnidadeSaude unidadeSaude = unidadeServices.getUnidadeSaudeById(medicamentoRequest.userTokenId());
 
         return new Medicamento(
                 medicamentoRequest.nome(),
