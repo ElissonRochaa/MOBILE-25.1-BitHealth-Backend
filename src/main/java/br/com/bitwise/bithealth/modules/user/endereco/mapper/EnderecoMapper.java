@@ -1,4 +1,4 @@
-package br.com.bitwise.bithealth.modules.user.endereco;
+package br.com.bitwise.bithealth.modules.user.endereco.mapper;
 
 import br.com.bitwise.bithealth.modules.user.endereco.dto.EnderecoDTO;
 import br.com.bitwise.bithealth.modules.user.endereco.model.Endereco;
