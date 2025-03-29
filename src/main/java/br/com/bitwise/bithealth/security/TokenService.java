@@ -60,4 +60,33 @@ public class TokenService {
     private Instant getExpirationTime() {
         return LocalDateTime.now().plusHours(24).toInstant(ZoneOffset.of("-03:00"));
     }
+
+    public String generateTokenId(String id) {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+
+            return JWT.create()
+                    .withIssuer("Id-crip-api")
+                    .withSubject(id)
+                    .sign(algorithm);
+
+        } catch (JWTCreationException exception) {
+            throw new UserGenerateTokenException(id);
+        }
+    }
+
+    public String decodeToken(String token) {
+        token = token.replace("Bearer ", "");
+
+        Algorithm algorithm = Algorithm.HMAC256(secret);
+
+        try {
+            return JWT.require(algorithm)
+                    .build()
+                    .verify(token)
+                    .getSubject();
+        } catch (JWTVerificationException e) {
+            return null;
+        }
+    }
 }

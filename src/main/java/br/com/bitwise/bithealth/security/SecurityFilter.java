@@ -28,7 +28,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (token != null) {
 
             var auth = this.tokenService.validateTokenDecoded(token);
-            var roles = auth.getClaim("roles").asList(Object.class);
+            var roles = auth.getClaim("tipoUsuario").asList(Object.class);
             var grants = roles.stream()
                     .map(
                             role -> new SimpleGrantedAuthority("ROLE_" + role.toString())

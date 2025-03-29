@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -23,6 +24,7 @@ public class UnidadeSaudeController {
 
     @GetMapping("/")
     @SecurityRequirement(name = "JWTAuth")
+    @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('CIDADAO')")
     public ResponseEntity<List<UnidadeSaudeResponse>> getAllUnidades() {
         List<UnidadeSaudeResponse> unidades = unidadeSaudeService.getAllUnidadeSaude();
         return ResponseEntity.ok().body(unidades);
@@ -30,14 +32,16 @@ public class UnidadeSaudeController {
 
     @PostMapping("/")
     @SecurityRequirement(name = "JWTAuth")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity<UnidadeSaudeResponse> createUnidade(@RequestBody @Valid UnidadeSaudeRequest unidadeRequest) {
         UnidadeSaudeResponse unidade = unidadeSaudeService.createUnidadeSaude(unidadeRequest);
         URI uri = URI.create("/unidades/" + unidade.tokenId());
         return ResponseEntity.created(uri).body(unidade);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{tokenId}")
     @SecurityRequirement(name = "JWTAuth")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity<Void> deleteUnidade(@PathVariable String tokenId) {
         unidadeSaudeService.deleteUnidadeSaude(tokenId);
         return ResponseEntity.ok().build();
