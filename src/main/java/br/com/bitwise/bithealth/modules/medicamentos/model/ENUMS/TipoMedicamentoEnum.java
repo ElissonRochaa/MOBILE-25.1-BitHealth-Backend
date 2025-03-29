@@ -2,7 +2,7 @@ package br.com.bitwise.bithealth.modules.medicamentos.model.ENUMS;
 
 
 public enum TipoMedicamentoEnum {
-    ORIGINAL("original"),
+    ORIGINAL("Original"),
     GENERICO("Generico");
 
     private final String tipo;
