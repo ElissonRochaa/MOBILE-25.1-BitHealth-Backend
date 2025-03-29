@@ -1,11 +1,11 @@
-package br.com.bitwise.bithealth.modules.unidadeSaude.services;
+package br.com.bitwise.bithealth.modules.unidade_saude.services;
 
 
-import br.com.bitwise.bithealth.modules.unidadeSaude.dto.UnidadeSaudeRequest;
-import br.com.bitwise.bithealth.modules.unidadeSaude.dto.UnidadeSaudeResponse;
-import br.com.bitwise.bithealth.modules.unidadeSaude.model.UnidadeSaude;
-import br.com.bitwise.bithealth.modules.unidadeSaude.repository.UnidadeSaudeRepository;
-import br.com.bitwise.bithealth.modules.unidadeSaude.services.mapper.UnidadeSaudeMapper;
+import br.com.bitwise.bithealth.modules.unidade_saude.dto.UnidadeSaudeRequest;
+import br.com.bitwise.bithealth.modules.unidade_saude.dto.UnidadeSaudeResponse;
+import br.com.bitwise.bithealth.modules.unidade_saude.model.UnidadeSaude;
+import br.com.bitwise.bithealth.modules.unidade_saude.repository.UnidadeSaudeRepository;
+import br.com.bitwise.bithealth.modules.unidade_saude.services.mapper.UnidadeSaudeMapper;
 import br.com.bitwise.bithealth.security.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,11 +30,9 @@ public class UnidadeSaudeService {
         return mapperUnidadeSaude.modelToResponse(UnidadeSaudeSaved, tokenId);
     }
 
-    public UnidadeSaudeResponse getUnidadeSaudeById(String tokenId) {
+    public UnidadeSaude getUnidadeSaudeById(String tokenId) {
         String id = tokenService.decodeToken(tokenId);
-        UnidadeSaude UnidadeSaude = unidadeSaudeRepository.findById(Long.parseLong(id)).orElseThrow();
-
-        return mapperUnidadeSaude.modelToResponse(UnidadeSaude, tokenId);
+        return unidadeSaudeRepository.findById(Long.parseLong(id)).orElseThrow();
     }
 
     public List<UnidadeSaudeResponse> getAllUnidadeSaude() {

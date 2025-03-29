@@ -1,4 +1,4 @@
-package br.com.bitwise.bithealth.modules.unidadeSaude.exceptions;
+package br.com.bitwise.bithealth.modules.unidade_saude.exceptions;
 
 import java.io.Serial;
 import java.io.Serializable;
