@@ -1,5 +1,6 @@
 package br.com.bitwise.bithealth.modules.unidade_saude.controller;
 
+import br.com.bitwise.bithealth.modules.unidade_saude.dto.MensagemResponse;
 import br.com.bitwise.bithealth.modules.unidade_saude.dto.UnidadeSaudeRequest;
 import br.com.bitwise.bithealth.modules.unidade_saude.dto.UnidadeSaudeResponse;
 import br.com.bitwise.bithealth.modules.unidade_saude.services.UnidadeSaudeService;
@@ -42,8 +43,8 @@ public class UnidadeSaudeController {
     @DeleteMapping("/{tokenId}")
     @SecurityRequirement(name = "JWTAuth")
     @PreAuthorize("hasRole('ADMINISTRADOR')")
-    public ResponseEntity<Void> deleteUnidade(@PathVariable String tokenId) {
+    public ResponseEntity<MensagemResponse> deleteUnidade(@PathVariable String tokenId) {
         unidadeSaudeService.deleteUnidadeSaude(tokenId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(new MensagemResponse("Unidade de Saúde deletada com sucesso"));
     }
 }
