@@ -1,8 +1,8 @@
-package br.com.bitwise.bithealth.modules.unidadeSaude.controller;
+package br.com.bitwise.bithealth.modules.unidade_saude.controller;
 
-import br.com.bitwise.bithealth.modules.unidadeSaude.dto.UnidadeSaudeRequest;
-import br.com.bitwise.bithealth.modules.unidadeSaude.dto.UnidadeSaudeResponse;
-import br.com.bitwise.bithealth.modules.unidadeSaude.services.UnidadeSaudeService;
+import br.com.bitwise.bithealth.modules.unidade_saude.dto.UnidadeSaudeRequest;
+import br.com.bitwise.bithealth.modules.unidade_saude.dto.UnidadeSaudeResponse;
+import br.com.bitwise.bithealth.modules.unidade_saude.services.UnidadeSaudeService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
