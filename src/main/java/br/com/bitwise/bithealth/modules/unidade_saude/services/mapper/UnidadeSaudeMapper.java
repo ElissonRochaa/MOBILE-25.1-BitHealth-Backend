@@ -1,9 +1,9 @@
-package br.com.bitwise.bithealth.modules.unidadeSaude.services.mapper;
+package br.com.bitwise.bithealth.modules.unidade_saude.services.mapper;
 
-import br.com.bitwise.bithealth.modules.unidadeSaude.dto.UnidadeSaudeRequest;
-import br.com.bitwise.bithealth.modules.unidadeSaude.dto.UnidadeSaudeResponse;
-import br.com.bitwise.bithealth.modules.unidadeSaude.model.ENUMS.TipoUnidade;
-import br.com.bitwise.bithealth.modules.unidadeSaude.model.UnidadeSaude;
+import br.com.bitwise.bithealth.modules.unidade_saude.dto.UnidadeSaudeRequest;
+import br.com.bitwise.bithealth.modules.unidade_saude.dto.UnidadeSaudeResponse;
+import br.com.bitwise.bithealth.modules.unidade_saude.model.ENUMS.TipoUnidade;
+import br.com.bitwise.bithealth.modules.unidade_saude.model.UnidadeSaude;
 import org.springframework.stereotype.Component;
 
 @Component

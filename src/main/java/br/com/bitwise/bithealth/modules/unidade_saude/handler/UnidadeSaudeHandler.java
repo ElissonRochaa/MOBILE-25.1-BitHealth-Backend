@@ -1,6 +1,6 @@
-package br.com.bitwise.bithealth.modules.unidadeSaude.handler;
+package br.com.bitwise.bithealth.modules.unidade_saude.handler;
 
-import br.com.bitwise.bithealth.modules.unidadeSaude.exceptions.ExceptionResponse;
+import br.com.bitwise.bithealth.modules.unidade_saude.exceptions.ExceptionResponse;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
