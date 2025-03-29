@@ -1,4 +1,4 @@
-package br.com.bitwise.bithealth.modules.unidadeSaude.model.ENUMS;
+package br.com.bitwise.bithealth.modules.unidade_saude.model.ENUMS;
 
 public enum TipoUnidade {
     UBS("UBS"),
