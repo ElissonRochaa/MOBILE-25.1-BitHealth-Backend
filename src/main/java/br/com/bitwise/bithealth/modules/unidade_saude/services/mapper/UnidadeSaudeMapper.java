@@ -1,5 +1,8 @@
 package br.com.bitwise.bithealth.modules.unidade_saude.services.mapper;
 
+import br.com.bitwise.bithealth.modules.medicamentos.dto.MedicamentoResponse;
+import br.com.bitwise.bithealth.modules.medicamentos.model.Medicamento;
+import br.com.bitwise.bithealth.modules.medicamentos.repository.MedicamentosRepository;
 import br.com.bitwise.bithealth.modules.servicos_saude.dto.ServicosSaudeResponse;
 import br.com.bitwise.bithealth.modules.servicos_saude.model.ServicosSaude;
 import br.com.bitwise.bithealth.modules.servicos_saude.repository.ServicosSaudeRepository;
@@ -19,6 +22,7 @@ import java.util.stream.Collectors;
 public class UnidadeSaudeMapper {
 
     private final ServicosSaudeRepository servicosSaudeRepository;
+    private final MedicamentosRepository medicamentosRepository;
     private final TokenService tokenService;
 
     public UnidadeSaude requestToModel(UnidadeSaudeRequest unidadeSaudeRequest) {
@@ -32,6 +36,7 @@ public class UnidadeSaudeMapper {
 
     public UnidadeSaudeResponse modelToResponse(UnidadeSaude unidadeSaude, String tokenId) {
         List<ServicosSaude> servicosSaudeList = servicosSaudeRepository.findByUnidadeSaudeId(unidadeSaude.getId());
+        List<Medicamento> medicamentoList = medicamentosRepository.findByUnidadeSaudeId(unidadeSaude.getId());
 
         List<ServicosSaudeResponse> servicosSaudeResponseList = servicosSaudeList.stream()
             .map(servicosSaude -> new ServicosSaudeResponse(
@@ -43,6 +48,15 @@ public class UnidadeSaudeMapper {
             ))
             .collect(Collectors.toList());
 
+        List<MedicamentoResponse> medicamentoResponseList = medicamentoList.stream()
+            .map(medicamento -> new MedicamentoResponse(
+                tokenService.generateTokenId(medicamento.getId().toString()),
+                medicamento.getNome(),
+                medicamento.getDescricao(),
+                medicamento.getQuantidade(),
+                medicamento.getTipoMedicamento().toString()
+            ))
+            .collect(Collectors.toList());
 
         return new UnidadeSaudeResponse(
             tokenId,
@@ -50,7 +64,8 @@ public class UnidadeSaudeMapper {
             unidadeSaude.getTipoUnidade().toString(),
             unidadeSaude.getHorarioInicioAtendimento(),
             unidadeSaude.getHorarioFimAtendimento(),
-            servicosSaudeResponseList
+            servicosSaudeResponseList,
+            medicamentoResponseList
         );
     }
 }
