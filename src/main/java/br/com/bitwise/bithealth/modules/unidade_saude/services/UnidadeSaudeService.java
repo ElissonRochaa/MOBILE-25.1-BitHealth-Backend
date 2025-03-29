@@ -1,6 +1,7 @@
 package br.com.bitwise.bithealth.modules.unidade_saude.services;
 
 
+import br.com.bitwise.bithealth.modules.medicamentos.repository.MedicamentosRepository;
 import br.com.bitwise.bithealth.modules.servicos_saude.repository.ServicosSaudeRepository;
 import br.com.bitwise.bithealth.modules.unidade_saude.dto.UnidadeSaudeRequest;
 import br.com.bitwise.bithealth.modules.unidade_saude.dto.UnidadeSaudeResponse;
@@ -23,6 +24,7 @@ public class UnidadeSaudeService {
 
     private final UnidadeSaudeRepository unidadeSaudeRepository;
     private final ServicosSaudeRepository servicosSaudeRepository;
+    private final MedicamentosRepository medicamentosRepository;
     private final UnidadeSaudeMapper mapperUnidadeSaude;
     private final TokenService tokenService;
 
@@ -61,6 +63,7 @@ public class UnidadeSaudeService {
     public Void deleteUnidadeSaude(String tokenId) {
         String id = tokenService.decodeToken(tokenId);
         servicosSaudeRepository.deleteByUnidadeSaudeId(UUID.fromString(id));
+        medicamentosRepository.deleteByUnidadeSaudeId(UUID.fromString(id));
         unidadeSaudeRepository.deleteById(UUID.fromString(id));
         return null;
     }
