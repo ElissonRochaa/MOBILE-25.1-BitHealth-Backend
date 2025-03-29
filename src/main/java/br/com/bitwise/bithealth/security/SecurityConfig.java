@@ -42,9 +42,17 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "api/unidades-saude/").hasAnyRole("ADMINISTRADOR", "CIDADAO")
                         .requestMatchers(HttpMethod.POST, "api/unidades-saude/").hasRole("ADMINISTRADOR")
                         .requestMatchers(HttpMethod.DELETE, "api/unidades-saude/**").hasRole("ADMINISTRADOR")
+
                         .requestMatchers(HttpMethod.GET, "api/servicos-saude/").hasAnyRole("ADMINISTRADOR", "CIDADAO")
                         .requestMatchers(HttpMethod.POST, "api/servicos-saude/").hasRole("ADMINISTRADOR")
                         .requestMatchers(HttpMethod.DELETE, "api/servicos-saude/**").hasRole("ADMINISTRADOR")
+
+                        .requestMatchers(HttpMethod.GET, "/api/medicamentos").hasAnyRole("ADMINISTRADOR", "CIDADAO")
+                        .requestMatchers(HttpMethod.POST, "/api/medicamentos").hasRole("ADMINISTRADOR")
+                        .requestMatchers(HttpMethod.DELETE, "/api/medicamentos/**").hasRole("ADMINISTRADOR")
+                        .requestMatchers(HttpMethod.PUT, "/api/medicamentos/**").hasRole("ADMINISTRADOR")
+
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
