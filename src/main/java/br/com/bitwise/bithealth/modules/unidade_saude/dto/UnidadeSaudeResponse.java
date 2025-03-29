@@ -1,4 +1,4 @@
-package br.com.bitwise.bithealth.modules.unidadeSaude.dto;
+package br.com.bitwise.bithealth.modules.unidade_saude.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

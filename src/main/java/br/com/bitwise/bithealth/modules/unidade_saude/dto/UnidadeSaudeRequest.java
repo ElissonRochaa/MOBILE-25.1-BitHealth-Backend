@@ -1,4 +1,4 @@
-package br.com.bitwise.bithealth.modules.unidadeSaude.dto;
+package br.com.bitwise.bithealth.modules.unidade_saude.dto;
 
 import br.com.bitwise.bithealth.utils.annotations.ValidHorarioAtendimento;
 import com.fasterxml.jackson.annotation.JsonProperty;
