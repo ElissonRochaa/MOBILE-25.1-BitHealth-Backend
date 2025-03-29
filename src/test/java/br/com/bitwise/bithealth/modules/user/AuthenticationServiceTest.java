@@ -40,13 +40,11 @@ public class AuthenticationServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        // Preparando um usuário de mock
         mockUsuario = new Usuario();
         mockUsuario.setNome("Test User");
         mockUsuario.setEmail("test@example.com");
         mockUsuario.setSenha("hashedPassword");
 
-        // DTO de requisição
         loginRequestDTO = new LoginRequestDTO("test@example.com", "password123");
     }
 
