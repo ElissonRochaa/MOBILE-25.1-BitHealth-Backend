@@ -24,6 +24,6 @@ public record ServicosSaudeRequest(
         String horarioFim,
         @JsonProperty("unidade_saude_id")
         @NotBlank(message = "O campo unidade de saúde é obrigatório")
-        String unidadeSaudeId
+        String unidadeSaudeTokenId
 ) {
 }
