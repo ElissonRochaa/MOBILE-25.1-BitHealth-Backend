@@ -22,6 +22,7 @@ public class ServicosSaudeServices {
 
     public ServicosSaudeResponse createServicosSaude(ServicosSaudeRequest servicosSaudeRequest) {
         ServicosSaude servicosSaude = mapperServicosSaude.requestToModel(servicosSaudeRequest);
+
         ServicosSaude servicosSaudeSalvo = servicosSaudeRepository.save(servicosSaude);
 
         String tokenId = tokenService.generateTokenId(String.valueOf(servicosSaudeSalvo.getId()));
