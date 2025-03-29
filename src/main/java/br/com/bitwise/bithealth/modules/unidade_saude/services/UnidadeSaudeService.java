@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,7 +33,7 @@ public class UnidadeSaudeService {
 
     public UnidadeSaude getUnidadeSaudeById(String tokenId) {
         String id = tokenService.decodeToken(tokenId);
-        return unidadeSaudeRepository.findById(Long.parseLong(id)).orElseThrow();
+        return unidadeSaudeRepository.findById(UUID.fromString(id)).orElse(null);
     }
 
     public List<UnidadeSaudeResponse> getAllUnidadeSaude() {
@@ -44,12 +45,12 @@ public class UnidadeSaudeService {
 
     public Boolean existsUnidadeSaude(String tokenId) {
         String id = tokenService.decodeToken(tokenId);
-        return unidadeSaudeRepository.existsById(Long.parseLong(id));
+        return unidadeSaudeRepository.existsById(UUID.fromString(id));
     }
 
     public Void deleteUnidadeSaude(String tokenId) {
         String id = tokenService.decodeToken(tokenId);
-        unidadeSaudeRepository.deleteById(Long.parseLong(id));
+        unidadeSaudeRepository.deleteById(UUID.fromString(id));
         return null;
     }
 }
