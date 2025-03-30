@@ -1,9 +1,8 @@
-package br.com.bitwise.bithealth.modules.endereco_unidades.repository;
+package br.com.bitwise.bithealth.modules.unidade_saude.endereco.repository;
 
-import br.com.bitwise.bithealth.modules.endereco_unidades.model.EnderecoUnidades;
+import br.com.bitwise.bithealth.modules.unidade_saude.endereco.model.EnderecoUnidades;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface EnderecoUnidadesRepository extends JpaRepository<EnderecoUnidades, UUID> {
