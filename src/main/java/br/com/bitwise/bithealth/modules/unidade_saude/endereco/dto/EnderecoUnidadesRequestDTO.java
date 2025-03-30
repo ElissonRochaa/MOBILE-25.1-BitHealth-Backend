@@ -1,11 +1,8 @@
-package br.com.bitwise.bithealth.modules.endereco_unidades.dto;
+package br.com.bitwise.bithealth.modules.unidade_saude.endereco.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
-
-import java.math.BigDecimal;
 
 public record EnderecoUnidadesRequestDTO(
         @NotBlank(message = "O campo logradouro é obrigatório")

@@ -1,4 +1,4 @@
-package br.com.bitwise.bithealth.modules.endereco_unidades.dto;
+package br.com.bitwise.bithealth.modules.unidade_saude.endereco.dto;
 
 public record EnderecoUnidadesResponseDTO(
 
