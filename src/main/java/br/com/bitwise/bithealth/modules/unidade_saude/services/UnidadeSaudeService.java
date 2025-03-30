@@ -40,17 +40,17 @@ public class UnidadeSaudeService {
             throw new UnidadeSaudeAlreadyExistsException("Já existe uma unidade de saúde com o nome informado");
         }
 
-        UnidadeSaude UnidadeSaude = mapperUnidadeSaude.requestToModel(unidadeSaudeRequest);
-        String tokenIdUnidade = tokenService.generateTokenId(String.valueOf(UnidadeSaude.getId()));
-        UnidadeSaude = unidadeSaudeRepository.save(UnidadeSaude);
+        UnidadeSaude unidadeSaude = mapperUnidadeSaude.requestToModel(unidadeSaudeRequest);
+        String tokenIdUnidade = tokenService.generateTokenId(String.valueOf(unidadeSaude.getId()));
+        unidadeSaude = unidadeSaudeRepository.save(unidadeSaude);
 
         EnderecoUnidadesRequestDTO enderecoUnidadeRequest = unidadeSaudeRequest.enderecoUnidadesRequestDTO();
-        EnderecoUnidades enderecoUnidades = enderecoUnidadesMapper.requestToModel(enderecoUnidadeRequest, UnidadeSaude);
+        EnderecoUnidades enderecoUnidades = enderecoUnidadesMapper.requestToModel(enderecoUnidadeRequest, unidadeSaude);
         enderecoUnidades = enderecoUnidadesRepository.save(enderecoUnidades);
         String tokenIdEndereco = tokenService.generateTokenId(String.valueOf(enderecoUnidades.getId()));
         EnderecoUnidadesResponseDTO enderecoUnidadesResponseDTO = enderecoUnidadesMapper.modelToResponse(enderecoUnidades, tokenIdEndereco);
 
-        return mapperUnidadeSaude.modelToResponse(UnidadeSaude, tokenIdUnidade, enderecoUnidadesResponseDTO);
+        return mapperUnidadeSaude.modelToResponse(unidadeSaude, tokenIdUnidade, enderecoUnidadesResponseDTO);
     }
 
     public UnidadeSaude getUnidadeSaudeById(String tokenId) {
@@ -68,17 +68,11 @@ public class UnidadeSaudeService {
                 .collect(Collectors.toList());
     }
 
-    public Boolean existsUnidadeSaude(String tokenId) {
-        String id = tokenService.decodeToken(tokenId);
-        return unidadeSaudeRepository.existsById(UUID.fromString(id));
-    }
-
-    public Void deleteUnidadeSaude(String tokenId) {
+    public void deleteUnidadeSaude(String tokenId) {
         String id = tokenService.decodeToken(tokenId);
         servicosSaudeRepository.deleteByUnidadeSaudeId(UUID.fromString(id));
         medicamentosRepository.deleteByUnidadeSaudeId(UUID.fromString(id));
         enderecoUnidadesRepository.deleteByUnidadeSaudeId(UUID.fromString(id));
         unidadeSaudeRepository.deleteById(UUID.fromString(id));
-        return null;
     }
 }
