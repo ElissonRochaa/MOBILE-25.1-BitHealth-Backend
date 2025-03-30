@@ -12,7 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "medicamentos")
+@Table(name = "calendario_vacinacao")
 public class CalendarioVacinacao {
 
     @Id
