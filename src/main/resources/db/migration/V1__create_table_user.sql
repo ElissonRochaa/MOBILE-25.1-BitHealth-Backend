@@ -100,7 +100,7 @@ CREATE TABLE calendario_vacinacao (
     descricao TEXT NOT NULL,
     data_inicio DATE NOT NULL,
     data_fim DATE NOT NULL,
-    status VARCHAR(50) NOT NULL,
+    status VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE noticias (
