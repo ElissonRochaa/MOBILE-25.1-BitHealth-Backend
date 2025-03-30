@@ -1,8 +1,8 @@
 package br.com.bitwise.bithealth.modules.unidade_saude.services.mapper;
 
-import br.com.bitwise.bithealth.modules.endereco_unidades.dto.EnderecoUnidadesResponseDTO;
-import br.com.bitwise.bithealth.modules.endereco_unidades.model.EnderecoUnidades;
-import br.com.bitwise.bithealth.modules.endereco_unidades.repository.EnderecoUnidadesRepository;
+import br.com.bitwise.bithealth.modules.unidade_saude.endereco.dto.EnderecoUnidadesResponseDTO;
+import br.com.bitwise.bithealth.modules.unidade_saude.endereco.model.EnderecoUnidades;
+import br.com.bitwise.bithealth.modules.unidade_saude.endereco.repository.EnderecoUnidadesRepository;
 import br.com.bitwise.bithealth.modules.medicamentos.dto.MedicamentoResponse;
 import br.com.bitwise.bithealth.modules.medicamentos.model.Medicamento;
 import br.com.bitwise.bithealth.modules.medicamentos.repository.MedicamentosRepository;
@@ -13,7 +13,6 @@ import br.com.bitwise.bithealth.modules.unidade_saude.dto.UnidadeSaudeRequest;
 import br.com.bitwise.bithealth.modules.unidade_saude.dto.UnidadeSaudeResponse;
 import br.com.bitwise.bithealth.modules.unidade_saude.model.ENUMS.TipoUnidade;
 import br.com.bitwise.bithealth.modules.unidade_saude.model.UnidadeSaude;
-import br.com.bitwise.bithealth.modules.endereco_unidades.services.mapper.EnderecoUnidadesMapper;
 import br.com.bitwise.bithealth.security.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -30,27 +29,38 @@ public class UnidadeSaudeMapper {
     private final MedicamentosRepository medicamentosRepository;
     private final EnderecoUnidadesRepository enderecoUnidadesRepository;
     private final TokenService tokenService;
-    private final EnderecoUnidadesMapper enderecoUnidadesMapper;
 
     public UnidadeSaude requestToModel(UnidadeSaudeRequest unidadeSaudeRequest) {
-
-        EnderecoUnidades enderecoUnidades = enderecoUnidadesMapper.requestToModel(unidadeSaudeRequest.enderecoUnidadesRequestDTO());
 
         return new UnidadeSaude(
                 unidadeSaudeRequest.nome(),
                 TipoUnidade.fromString(unidadeSaudeRequest.tipo()),
                 unidadeSaudeRequest.horarioInicioAtendimento(),
-                unidadeSaudeRequest.horarioFimAtendimento(),
-                enderecoUnidades
-
+                unidadeSaudeRequest.horarioFimAtendimento()
         );
     }
 
     public UnidadeSaudeResponse modelToResponse(UnidadeSaude unidadeSaude, String tokenId) {
-        List<ServicosSaude> servicosSaudeList = servicosSaudeRepository.findByUnidadeSaudeId(unidadeSaude.getId());
-        List<Medicamento> medicamentoList = medicamentosRepository.findByUnidadeSaudeId(unidadeSaude.getId());
 
-        List<ServicosSaudeResponse> servicosSaudeResponseList = servicosSaudeList.stream()
+        List<ServicosSaudeResponse> servicosSaudeResponseList = mapServicosSaude(unidadeSaude.getId());
+        List<MedicamentoResponse> medicamentoResponseList = mapMedicamentos(unidadeSaude.getId());
+        EnderecoUnidadesResponseDTO enderecoUnidadesResponseDTO = mapEnderecoUnidades(unidadeSaude.getId());
+
+        return new UnidadeSaudeResponse(
+                tokenId,
+                unidadeSaude.getNome(),
+                unidadeSaude.getTipoUnidade().toString(),
+                unidadeSaude.getHorarioInicioAtendimento(),
+                unidadeSaude.getHorarioFimAtendimento(),
+                servicosSaudeResponseList,
+                medicamentoResponseList,
+                enderecoUnidadesResponseDTO
+        );
+    }
+
+    private List<ServicosSaudeResponse> mapServicosSaude(UUID unidadeSaudeId) {
+        List<ServicosSaude> servicosSaudeList = servicosSaudeRepository.findByUnidadeSaudeId(unidadeSaudeId);
+        return servicosSaudeList.stream()
                 .map(servicosSaude -> new ServicosSaudeResponse(
                         tokenService.generateTokenId(servicosSaude.getId().toString()),
                         servicosSaude.getNome(),
@@ -59,8 +69,11 @@ public class UnidadeSaudeMapper {
                         servicosSaude.getHorarioFim()
                 ))
                 .collect(Collectors.toList());
+    }
 
-        List<MedicamentoResponse> medicamentoResponseList = medicamentoList.stream()
+    private List<MedicamentoResponse> mapMedicamentos(UUID unidadeSaudeId) {
+        List<Medicamento> medicamentoList = medicamentosRepository.findByUnidadeSaudeId(unidadeSaudeId);
+        return medicamentoList.stream()
                 .map(medicamento -> new MedicamentoResponse(
                         tokenService.generateTokenId(medicamento.getId().toString()),
                         medicamento.getNome(),
@@ -69,12 +82,12 @@ public class UnidadeSaudeMapper {
                         medicamento.getTipoMedicamento().toString()
                 ))
                 .collect(Collectors.toList());
+    }
 
-
-        EnderecoUnidades enderecoUnidades =  enderecoUnidadesRepository.findByUnidadeSaudeId(UUID.fromString(tokenId));
-
-        EnderecoUnidadesResponseDTO enderecoUnidadesResponseDTO = new EnderecoUnidadesResponseDTO(
-                tokenId,
+    private EnderecoUnidadesResponseDTO mapEnderecoUnidades(UUID unidadeSaudeId) {
+        EnderecoUnidades enderecoUnidades = enderecoUnidadesRepository.findByUnidadeSaudeId(unidadeSaudeId);
+        return new EnderecoUnidadesResponseDTO(
+                tokenService.generateTokenId(enderecoUnidades.getId().toString()),
                 enderecoUnidades.getLogradouro(),
                 enderecoUnidades.getNumero(),
                 enderecoUnidades.getComplemento(),
@@ -85,11 +98,15 @@ public class UnidadeSaudeMapper {
                 enderecoUnidades.getLongitude(),
                 enderecoUnidades.getCep()
         );
+    }
 
+    public UnidadeSaudeResponse modelToResponse(UnidadeSaude unidadeSaude, String tokenIdUnidade, EnderecoUnidadesResponseDTO enderecoUnidadesResponseDTO) {
 
+        List<ServicosSaudeResponse> servicosSaudeResponseList = mapServicosSaude(unidadeSaude.getId());
+        List<MedicamentoResponse> medicamentoResponseList = mapMedicamentos(unidadeSaude.getId());
 
         return new UnidadeSaudeResponse(
-                tokenId,
+                tokenIdUnidade,
                 unidadeSaude.getNome(),
                 unidadeSaude.getTipoUnidade().toString(),
                 unidadeSaude.getHorarioInicioAtendimento(),
