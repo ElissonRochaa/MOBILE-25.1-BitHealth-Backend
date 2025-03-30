@@ -52,6 +52,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/medicamentos/**").hasRole("ADMINISTRADOR")
                         .requestMatchers(HttpMethod.PUT, "/api/medicamentos/**").hasRole("ADMINISTRADOR")
 
+                        .requestMatchers(HttpMethod.GET, "api/calendario-vacinacao").hasAnyRole("ADMINISTRADOR", "CIDADAO")
+                        .requestMatchers(HttpMethod.POST, "api/calendario-vacinacao").hasRole("ADMINISTRADOR")
+                        .requestMatchers(HttpMethod.DELETE, "api/calendario-vacinacao/**").hasRole("ADMINISTRADOR")
 
                         .anyRequest().authenticated()
                 )
