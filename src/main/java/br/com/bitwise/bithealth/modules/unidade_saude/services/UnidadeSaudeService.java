@@ -1,9 +1,11 @@
 package br.com.bitwise.bithealth.modules.unidade_saude.services;
 
 
-import br.com.bitwise.bithealth.modules.endereco_unidades.model.EnderecoUnidades;
-import br.com.bitwise.bithealth.modules.endereco_unidades.repository.EnderecoUnidadesRepository;
-import br.com.bitwise.bithealth.modules.endereco_unidades.services.mapper.EnderecoUnidadesMapper;
+import br.com.bitwise.bithealth.modules.unidade_saude.endereco.dto.EnderecoUnidadesRequestDTO;
+import br.com.bitwise.bithealth.modules.unidade_saude.endereco.dto.EnderecoUnidadesResponseDTO;
+import br.com.bitwise.bithealth.modules.unidade_saude.endereco.model.EnderecoUnidades;
+import br.com.bitwise.bithealth.modules.unidade_saude.endereco.repository.EnderecoUnidadesRepository;
+import br.com.bitwise.bithealth.modules.unidade_saude.endereco.services.mapper.EnderecoUnidadesMapper;
 import br.com.bitwise.bithealth.modules.medicamentos.repository.MedicamentosRepository;
 import br.com.bitwise.bithealth.modules.servicos_saude.repository.ServicosSaudeRepository;
 import br.com.bitwise.bithealth.modules.unidade_saude.dto.UnidadeSaudeRequest;
@@ -26,10 +28,10 @@ import java.util.stream.Collectors;
 public class UnidadeSaudeService {
 
     private final UnidadeSaudeRepository unidadeSaudeRepository;
-    private final EnderecoUnidadesRepository enderecoUnidadesRepository;
     private final ServicosSaudeRepository servicosSaudeRepository;
     private final MedicamentosRepository medicamentosRepository;
     private final UnidadeSaudeMapper mapperUnidadeSaude;
+    private final EnderecoUnidadesRepository enderecoUnidadesRepository;
     private final EnderecoUnidadesMapper enderecoUnidadesMapper;
     private final TokenService tokenService;
 
@@ -39,16 +41,16 @@ public class UnidadeSaudeService {
         }
 
         UnidadeSaude UnidadeSaude = mapperUnidadeSaude.requestToModel(unidadeSaudeRequest);
-
-        String tokenId = tokenService.generateTokenId(String.valueOf(UnidadeSaude.getId()));
-
-        EnderecoUnidades enderecoUnidades = enderecoUnidadesMapper.requestToModel(unidadeSaudeRequest.enderecoUnidadesRequestDTO());
-        UnidadeSaude.setEndereco(enderecoUnidades);
-
+        String tokenIdUnidade = tokenService.generateTokenId(String.valueOf(UnidadeSaude.getId()));
         UnidadeSaude = unidadeSaudeRepository.save(UnidadeSaude);
-        enderecoUnidadesRepository.save(enderecoUnidades);
 
-        return mapperUnidadeSaude.modelToResponse(UnidadeSaude, tokenId);
+        EnderecoUnidadesRequestDTO enderecoUnidadeRequest = unidadeSaudeRequest.enderecoUnidadesRequestDTO();
+        EnderecoUnidades enderecoUnidades = enderecoUnidadesMapper.requestToModel(enderecoUnidadeRequest, UnidadeSaude);
+        enderecoUnidades = enderecoUnidadesRepository.save(enderecoUnidades);
+        String tokenIdEndereco = tokenService.generateTokenId(String.valueOf(enderecoUnidades.getId()));
+        EnderecoUnidadesResponseDTO enderecoUnidadesResponseDTO = enderecoUnidadesMapper.modelToResponse(enderecoUnidades, tokenIdEndereco);
+
+        return mapperUnidadeSaude.modelToResponse(UnidadeSaude, tokenIdUnidade, enderecoUnidadesResponseDTO);
     }
 
     public UnidadeSaude getUnidadeSaudeById(String tokenId) {
@@ -75,6 +77,7 @@ public class UnidadeSaudeService {
         String id = tokenService.decodeToken(tokenId);
         servicosSaudeRepository.deleteByUnidadeSaudeId(UUID.fromString(id));
         medicamentosRepository.deleteByUnidadeSaudeId(UUID.fromString(id));
+        enderecoUnidadesRepository.deleteByUnidadeSaudeId(UUID.fromString(id));
         unidadeSaudeRepository.deleteById(UUID.fromString(id));
         return null;
     }
