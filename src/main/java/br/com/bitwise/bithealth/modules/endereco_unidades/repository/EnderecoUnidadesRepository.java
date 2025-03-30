@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface EnderecoUnidadesRepository extends JpaRepository<EnderecoUnidades, UUID> {
-    List<EnderecoUnidades> findByUnidadeSaudeId(UUID unidadeSaudeId);
+    EnderecoUnidades findByUnidadeSaudeId(UUID unidadeSaudeId);
     void deleteByUnidadeSaudeId(UUID unidadeSaudeId);
 }

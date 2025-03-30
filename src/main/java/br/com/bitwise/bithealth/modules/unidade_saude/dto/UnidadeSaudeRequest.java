@@ -1,5 +1,7 @@
 package br.com.bitwise.bithealth.modules.unidade_saude.dto;
 
+import br.com.bitwise.bithealth.modules.endereco_unidades.dto.EnderecoUnidadesRequestDTO;
+import br.com.bitwise.bithealth.modules.endereco_unidades.dto.EnderecoUnidadesResponseDTO;
 import br.com.bitwise.bithealth.utils.annotations.ValidHorarioAtendimento;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
@@ -21,6 +23,8 @@ public record UnidadeSaudeRequest(
         @NotBlank(message = "O campo horário de fim de atendimento é obrigatório")
         @Length(min = 5, max = 5, message = "O campo horário de fim de atendimento deve ter 5 caracteres")
         @ValidHorarioAtendimento
-        String horarioFimAtendimento
+        String horarioFimAtendimento,
+
+        EnderecoUnidadesRequestDTO enderecoUnidadesRequestDTO
 ) {
 }

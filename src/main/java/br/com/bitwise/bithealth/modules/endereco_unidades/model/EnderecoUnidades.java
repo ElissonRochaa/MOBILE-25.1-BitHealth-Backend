@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -12,7 +13,8 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
+@Entity(name = "EnderecoUnidades")
+@ToString
 @Table(name = "enderecos_unidades")
 public class EnderecoUnidades {
 
@@ -47,16 +49,16 @@ public class EnderecoUnidades {
     private String estado;
 
     @Column(name = "latitude")
-    private BigDecimal latitude;
+    private String latitude;
 
     @Column(name = "longitude")
-    private BigDecimal longitude;
+    private String longitude;
 
     @Column(name = "cep", nullable = false)
     private String cep;
 
     public EnderecoUnidades(String logradouro, String numero, String complemento, String bairro,
-                           String cidade, String estado, BigDecimal latitude, BigDecimal longitude,
+                           String cidade, String estado, String latitude, String longitude,
                            String cep, UnidadeSaude unidadeSaude) {
         this.logradouro = logradouro;
         this.numero = numero;

@@ -31,12 +31,6 @@ public record EnderecoUnidadesRequestDTO(
         @Length(min = 2, max = 2, message = "O campo estado deve ter 2 caracteres")
         String estado,
 
-        @JsonProperty(namespace = "latitude")
-        BigDecimal latitude,
-
-        @JsonProperty(namespace = "longitude")
-        BigDecimal longitude,
-
         @NotBlank(message = "O campo CEP é obrigatório")
         @Length(min = 8, max = 10, message = "O campo CEP deve ter entre 8 e 10 caracteres")
         String cep,
