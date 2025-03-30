@@ -2,6 +2,7 @@ package br.com.bitwise.bithealth.modules.calendario_vacinacao.services;
 
 import br.com.bitwise.bithealth.modules.calendario_vacinacao.dto.CalendarioRequest;
 import br.com.bitwise.bithealth.modules.calendario_vacinacao.dto.CalendarioResponse;
+import br.com.bitwise.bithealth.modules.calendario_vacinacao.exceptions.DateInitAfterDateEndException;
 import br.com.bitwise.bithealth.modules.calendario_vacinacao.model.CalendarioVacinacao;
 import br.com.bitwise.bithealth.modules.calendario_vacinacao.repository.CalendarioVacinacaoRepository;
 import br.com.bitwise.bithealth.modules.calendario_vacinacao.services.mapper.MapperCalendarioVacinacao;
@@ -9,8 +10,11 @@ import br.com.bitwise.bithealth.security.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,9 +26,9 @@ public class CalendarioVacinacaoServices {
 
     public CalendarioResponse createCalendarioVacinacao(CalendarioRequest calendarioRequest) {
         CalendarioVacinacao calendario = mapperCalendarioVacinacao.requestToModel(calendarioRequest);
+        validadeDataInicioDataFim(calendario.getDataInicio(), calendario.getDataFim());
         calendario = calendarioVacinacaoRepository.save(calendario);
         String tokenId = tokenService.generateTokenId(calendario.getId().toString());
-
         return mapperCalendarioVacinacao.modelToResponse(calendario, tokenId);
     }
 
@@ -35,12 +39,29 @@ public class CalendarioVacinacaoServices {
                         x,
                         tokenService.generateTokenId(x.getId().toString())
                 ))
-                .collect(java.util.stream.Collectors.toList());
+                .collect(Collectors.toList());
     }
 
     public Void deleteCalendarioVacinacao(String tokenId) {
         String id = tokenService.decodeToken(tokenId);
         calendarioVacinacaoRepository.deleteById(UUID.fromString(id));
         return null;
+    }
+
+    private void validadeDataInicioDataFim(String dataInicio, String dataFim) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        try {
+            Date inicio = dateFormat.parse(dataInicio);
+            Date fim = dateFormat.parse(dataFim);
+            boolean validadeData = inicio.before(fim);
+            if (!validadeData) {
+                throw new DateInitAfterDateEndException("Data de início não pode ser maior que a data de fim");
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Data de início não pode ser maior que a data de fim");
+        }
+
     }
 }
