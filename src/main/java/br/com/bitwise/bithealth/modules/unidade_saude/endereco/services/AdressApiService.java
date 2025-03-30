@@ -1,4 +1,4 @@
-package br.com.bitwise.bithealth.modules.endereco_unidades.services;
+package br.com.bitwise.bithealth.modules.unidade_saude.endereco.services;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
