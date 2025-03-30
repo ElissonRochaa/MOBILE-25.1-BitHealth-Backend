@@ -1,6 +1,5 @@
 package br.com.bitwise.bithealth.modules.unidade_saude.model;
 
-import br.com.bitwise.bithealth.modules.endereco_unidades.model.EnderecoUnidades;
 import br.com.bitwise.bithealth.modules.unidade_saude.model.ENUMS.TipoUnidade;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -38,24 +37,15 @@ public class UnidadeSaude {
     @Column(name = "criado_em", nullable = false)
     private LocalDateTime criadoEm;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(
-            name = "endereco_id",
-            referencedColumnName = "id",
-            nullable = false
-    )
-    private EnderecoUnidades endereco;
-
     @PrePersist
     protected void prePersist() {
         criadoEm = LocalDateTime.now();
     }
 
-    public UnidadeSaude(String nome, TipoUnidade tipoUnidade, String horarioInicioAtendimento, String horarioFimAtendimento , EnderecoUnidades enderecoUnidades) {
+    public UnidadeSaude(String nome, TipoUnidade tipoUnidade, String horarioInicioAtendimento, String horarioFimAtendimento) {
         this.nome = nome;
         this.tipoUnidade = tipoUnidade;
         this.horarioInicioAtendimento = horarioInicioAtendimento;
         this.horarioFimAtendimento = horarioFimAtendimento;
-        this.endereco = enderecoUnidades;
     }
 }
