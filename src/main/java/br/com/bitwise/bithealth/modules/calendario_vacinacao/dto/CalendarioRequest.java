@@ -1,5 +1,6 @@
 package br.com.bitwise.bithealth.modules.calendario_vacinacao.dto;
 
+import br.com.bitwise.bithealth.utils.annotations.ValidData;
 import br.com.bitwise.bithealth.utils.annotations.ValidHorarioAtendimento;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,12 +18,12 @@ public record CalendarioRequest(
         @Length(min = 3, max = 100, message = "O campo descrição deve ter entre 3 e 100 caracteres")
         String descricao,
         @NotBlank(message = "O campo data de início é obrigatório")
-        @Length(min = 5, max = 5, message = "O campo data de início deve ter 5 caracteres")
-        @ValidHorarioAtendimento
+        @Length(min = 10, max = 10, message = "O campo data de inicio não é válido")
+        @ValidData
         String dataInicio,
         @NotBlank(message = "O campo data de final é obrigatório")
-        @Length(min = 5, max = 5, message = "O campo data de final deve ter 5 caracteres")
-        @ValidHorarioAtendimento
+        @Length(min = 10, max = 10, message = "O campo data de final não é válido")
+        @ValidData
         String dataFim,
         String status
 ) {
