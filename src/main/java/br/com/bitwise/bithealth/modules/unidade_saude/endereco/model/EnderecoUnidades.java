@@ -1,4 +1,4 @@
-package br.com.bitwise.bithealth.modules.endereco_unidades.model;
+package br.com.bitwise.bithealth.modules.unidade_saude.endereco.model;
 
 import br.com.bitwise.bithealth.modules.unidade_saude.model.UnidadeSaude;
 import jakarta.persistence.*;
@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 @Data
