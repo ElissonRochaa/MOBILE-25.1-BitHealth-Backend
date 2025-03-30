@@ -1,5 +1,6 @@
 package br.com.bitwise.bithealth.modules.unidade_saude.dto;
 
+import br.com.bitwise.bithealth.modules.unidade_saude.endereco.dto.EnderecoUnidadesResponseDTO;
 import br.com.bitwise.bithealth.modules.medicamentos.dto.MedicamentoResponse;
 import br.com.bitwise.bithealth.modules.servicos_saude.dto.ServicosSaudeResponse;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ public record UnidadeSaudeResponse(
         @JsonProperty(namespace = "horario_fim_atendimento")
         String horarioFimAtendimento,
         List<ServicosSaudeResponse> listServicosSaude,
-        List<MedicamentoResponse> listMedicamentos
+        List<MedicamentoResponse> listMedicamentos,
+        EnderecoUnidadesResponseDTO endereco
 ) {
 }

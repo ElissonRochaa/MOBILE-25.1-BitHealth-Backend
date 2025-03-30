@@ -1,11 +1,8 @@
-package br.com.bitwise.bithealth.modules.endereco_unidades.dto;
+package br.com.bitwise.bithealth.modules.unidade_saude.endereco.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
-
-import java.math.BigDecimal;
 
 public record EnderecoUnidadesRequestDTO(
         @NotBlank(message = "O campo logradouro é obrigatório")
@@ -30,12 +27,6 @@ public record EnderecoUnidadesRequestDTO(
         @NotBlank(message = "O campo estado é obrigatório")
         @Length(min = 2, max = 2, message = "O campo estado deve ter 2 caracteres")
         String estado,
-
-        @JsonProperty(namespace = "latitude")
-        BigDecimal latitude,
-
-        @JsonProperty(namespace = "longitude")
-        BigDecimal longitude,
 
         @NotBlank(message = "O campo CEP é obrigatório")
         @Length(min = 8, max = 10, message = "O campo CEP deve ter entre 8 e 10 caracteres")
