@@ -1,4 +1,4 @@
-package br.com.bitwise.bithealth.modules.endereco_unidades.exceptions;
+package br.com.bitwise.bithealth.modules.unidade_saude.endereco.exceptions;
 
 import java.io.Serial;
 import java.io.Serializable;
