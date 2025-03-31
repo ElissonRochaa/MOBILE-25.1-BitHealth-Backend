@@ -30,10 +30,6 @@ public record EnderecoUnidadesRequestDTO(
 
         @NotBlank(message = "O campo CEP é obrigatório")
         @Length(min = 8, max = 10, message = "O campo CEP deve ter entre 8 e 10 caracteres")
-        String cep,
-
-        @NotBlank(message = "O campo token de unidade de saúde é obrigatório")
-        @JsonProperty(namespace = "unidade_saude_id")
-        String unidadeTokenId
+        String cep
 ) {
 }
