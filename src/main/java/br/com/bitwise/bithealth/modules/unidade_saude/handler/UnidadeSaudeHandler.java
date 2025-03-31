@@ -1,5 +1,6 @@
 package br.com.bitwise.bithealth.modules.unidade_saude.handler;
 
+import br.com.bitwise.bithealth.modules.unidade_saude.exceptions.EnderecoUnidadesNotFoundException;
 import br.com.bitwise.bithealth.modules.unidade_saude.exceptions.ExceptionResponse;
 import br.com.bitwise.bithealth.modules.unidade_saude.exceptions.UnidadeSaudeAlreadyExistsException;
 import br.com.bitwise.bithealth.modules.unidade_saude.exceptions.UnidadeSaudeNotFoundException;
@@ -47,5 +48,15 @@ public class UnidadeSaudeHandler {
     public final ResponseEntity<ExceptionResponse> handleUnidadeSaudeAlreadyExistsException(UnidadeSaudeAlreadyExistsException ex, WebRequest request) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "404", description = "Endereco da unidade de saúde não encontrada",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class)))
+    })
+    @ExceptionHandler(EnderecoUnidadesNotFoundException.class)
+    public final ResponseEntity<ExceptionResponse> handleEderecoUnidadeSaudeNotFoundException(EnderecoUnidadesNotFoundException ex, WebRequest request) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
     }
 }
