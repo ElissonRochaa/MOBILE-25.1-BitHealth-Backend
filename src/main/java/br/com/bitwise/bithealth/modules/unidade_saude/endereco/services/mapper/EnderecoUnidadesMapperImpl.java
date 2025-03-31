@@ -4,6 +4,7 @@ import br.com.bitwise.bithealth.modules.unidade_saude.endereco.dto.EnderecoUnida
 import br.com.bitwise.bithealth.modules.unidade_saude.endereco.dto.EnderecoUnidadesResponseDTO;
 import br.com.bitwise.bithealth.modules.unidade_saude.endereco.model.EnderecoUnidades;
 import br.com.bitwise.bithealth.modules.unidade_saude.model.UnidadeSaude;
+import br.com.bitwise.bithealth.modules.unidade_saude.endereco.services.AdressApiService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -11,8 +12,28 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class EnderecoUnidadesMapperImpl implements EnderecoUnidadesMapper {
 
+    private final AdressApiService adressApiService;
+
     @Override
     public EnderecoUnidades requestToModel(EnderecoUnidadesRequestDTO enderecoUnidadeRequest, UnidadeSaude unidadeSaude) {
+
+        String coordinates = adressApiService.getCoordinatesAsString(
+                enderecoUnidadeRequest.logradouro() + ", " +
+                        enderecoUnidadeRequest.bairro() + ", " +
+                        enderecoUnidadeRequest.cidade() + ", " +
+                        enderecoUnidadeRequest.estado() + ", " +
+                        enderecoUnidadeRequest.cep()
+        );
+
+        String latitude = null;
+        String longitude = null;
+
+        if (coordinates != null) {
+            String[] coords = coordinates.split(",");
+            latitude = coords[0];
+            longitude = coords[1];
+        }
+
         return new EnderecoUnidades(
                 enderecoUnidadeRequest.logradouro(),
                 enderecoUnidadeRequest.numero(),
@@ -20,8 +41,8 @@ public class EnderecoUnidadesMapperImpl implements EnderecoUnidadesMapper {
                 enderecoUnidadeRequest.bairro(),
                 enderecoUnidadeRequest.cidade(),
                 enderecoUnidadeRequest.estado(),
-                "latitude",
-                "longitude",
+                latitude,
+                longitude,
                 enderecoUnidadeRequest.cep(),
                 unidadeSaude
         );

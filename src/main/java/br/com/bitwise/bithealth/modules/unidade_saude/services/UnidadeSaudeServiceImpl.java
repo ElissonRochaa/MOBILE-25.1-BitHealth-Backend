@@ -16,6 +16,7 @@ import br.com.bitwise.bithealth.modules.unidade_saude.model.UnidadeSaude;
 import br.com.bitwise.bithealth.modules.unidade_saude.repository.UnidadeSaudeRepository;
 import br.com.bitwise.bithealth.modules.unidade_saude.services.mapper.UnidadeSaudeMapper;
 import br.com.bitwise.bithealth.security.TokenService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -72,6 +73,7 @@ public class UnidadeSaudeServiceImpl implements UnidadeSaudeService {
     }
 
     @Override
+    @Transactional
     public void deleteUnidadeSaude(String tokenId) {
         String id = tokenService.decodeToken(tokenId);
         servicosSaudeRepository.deleteByUnidadeSaudeId(UUID.fromString(id));
