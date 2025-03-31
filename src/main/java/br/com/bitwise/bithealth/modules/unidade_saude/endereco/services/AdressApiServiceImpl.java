@@ -2,23 +2,27 @@ package br.com.bitwise.bithealth.modules.unidade_saude.endereco.services;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 @Service
 public class AdressApiServiceImpl implements AdressApiService {
 
-    private static final String API_KEY = "120b0ab6378b401aade85ddaa831ba17";
+    @Value("${api.geocoding.secret}")
+    private String apiKey;
 
     @Override
     public String getCoordinatesAsString(String address) {
         try {
-            String urlString = String.format(
-                    "https://api.opencagedata.com/geocode/v1/json?q=%s&key=%s",
-                    address.replace(" ", "+"), API_KEY);
+            String encodedAddress = URLEncoder.encode(address, StandardCharsets.UTF_8.toString());
+            String urlString = String.format("https://api.opencagedata.com/geocode/v1/json?q=%s&key=%s&pretty=1&language=pt-BR",
+                    encodedAddress, apiKey);
 
             HttpURLConnection connection = (HttpURLConnection) new URL(urlString).openConnection();
             connection.setRequestMethod("GET");
@@ -27,23 +31,22 @@ public class AdressApiServiceImpl implements AdressApiService {
             InputStreamReader reader = new InputStreamReader(connection.getInputStream());
             JsonObject response = JsonParser.parseReader(reader).getAsJsonObject();
 
-            if ("OK".equals(response.get("status").getAsString())) {
-                JsonObject location = response.getAsJsonArray("results")
-                        .get(0).getAsJsonObject()
-                        .getAsJsonObject("geometry")
-                        .getAsJsonObject("location");
+            JsonObject status = response.getAsJsonObject("status");
+            String message = status.get("message").getAsString();
 
-                double lat = location.get("lat").getAsDouble();
-                double lng = location.get("lng").getAsDouble();
+            if ("OK".equals(message)) {
+                JsonObject result = response.getAsJsonArray("results").get(0).getAsJsonObject();
+                JsonObject geometry = result.getAsJsonObject("geometry");
 
-                return lat + "," + lng;
-            } else {
-                System.out.println("Erro na geocodificação: " + response.get("status").getAsString());
-                return null;
+                if (geometry != null && geometry.has("lat") && geometry.has("lng")) {
+                    double lat = geometry.get("lat").getAsDouble();
+                    double lng = geometry.get("lng").getAsDouble();
+                    return lat + "," + lng;
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 }
