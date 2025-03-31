@@ -1,8 +1,8 @@
-package br.com.bitwise.bithealth.modules.user.service;
+package br.com.bitwise.bithealth.modules.user.service.impl;
 
 import br.com.bitwise.bithealth.modules.user.dto.RegistroUsuarioDTO;
 import br.com.bitwise.bithealth.modules.user.dto.UsuarioDTO;
-import br.com.bitwise.bithealth.modules.user.endereco.mapper.EnderecoMapper;
+import br.com.bitwise.bithealth.modules.user.endereco.mapper.impl.EnderecoMapperImpl;
 import br.com.bitwise.bithealth.modules.user.endereco.model.Endereco;
 import br.com.bitwise.bithealth.modules.user.endereco.repository.EnderecoRepository;
 import br.com.bitwise.bithealth.modules.user.exceptions.CPFAlreadyExistsException;
@@ -11,6 +11,7 @@ import br.com.bitwise.bithealth.modules.user.exceptions.NumeroTelefoneAlreadyExi
 import br.com.bitwise.bithealth.modules.user.mapper.UsuarioMapper;
 import br.com.bitwise.bithealth.modules.user.model.Usuario;
 import br.com.bitwise.bithealth.modules.user.repository.UsuarioRepository;
+import br.com.bitwise.bithealth.modules.user.service.RegistroService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,10 +19,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class RegistroService {
+public class RegistroServiceImpl implements RegistroService {
 
     private final UsuarioMapper usuarioMapper;
-    private final EnderecoMapper enderecoMapper;
+    private final EnderecoMapperImpl enderecoMapper;
 
     private final UsuarioRepository usuarioRepository;
     private final EnderecoRepository enderecoRepository;
@@ -29,6 +30,7 @@ public class RegistroService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
+    @Override
     public UsuarioDTO registrarNovoUsuario(RegistroUsuarioDTO registroDTO) {
 
         if (usuarioRepository.existsByEmail(registroDTO.email())) {
