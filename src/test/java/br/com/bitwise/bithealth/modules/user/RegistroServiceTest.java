@@ -2,8 +2,8 @@ package br.com.bitwise.bithealth.modules.user;
 
 import br.com.bitwise.bithealth.modules.user.dto.RegistroUsuarioDTO;
 import br.com.bitwise.bithealth.modules.user.dto.UsuarioDTO;
-import br.com.bitwise.bithealth.modules.user.endereco.mapper.EnderecoMapper;
 import br.com.bitwise.bithealth.modules.user.endereco.dto.EnderecoDTO;
+import br.com.bitwise.bithealth.modules.user.endereco.mapper.impl.EnderecoMapperImpl;
 import br.com.bitwise.bithealth.modules.user.endereco.repository.EnderecoRepository;
 import br.com.bitwise.bithealth.modules.user.exceptions.CPFAlreadyExistsException;
 import br.com.bitwise.bithealth.modules.user.exceptions.EmailAlreadyExistsException;
@@ -11,7 +11,7 @@ import br.com.bitwise.bithealth.modules.user.mapper.UsuarioMapper;
 import br.com.bitwise.bithealth.modules.user.model.ENUM.TipoUsuario;
 import br.com.bitwise.bithealth.modules.user.model.Usuario;
 import br.com.bitwise.bithealth.modules.user.repository.UsuarioRepository;
-import br.com.bitwise.bithealth.modules.user.service.RegistroService;
+import br.com.bitwise.bithealth.modules.user.service.impl.RegistroServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,6 +29,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 public class RegistroServiceTest {
+
     @Mock
     private UsuarioMapper usuarioMapper;
 
@@ -39,13 +40,13 @@ public class RegistroServiceTest {
     private PasswordEncoder passwordEncoder;
 
     @Mock
-    private EnderecoMapper enderecoMapper;
+    private EnderecoMapperImpl enderecoMapper;
 
     @Mock
     private EnderecoRepository enderecoRepository;
 
     @InjectMocks
-    private RegistroService registroService;
+    private RegistroServiceImpl registroService;
 
     private RegistroUsuarioDTO validRegistroDTO;
     private Usuario usuario;
@@ -102,7 +103,7 @@ public class RegistroServiceTest {
     @Test
     @DisplayName("Deve registrar usuário com sucesso quando dados forem válidos")
     void registrarNovoUsuarioSucesso() {
-        // Arrange
+
         when(usuarioRepository.existsByEmail(anyString())).thenReturn(false);
         when(usuarioRepository.existsByCpf(anyString())).thenReturn(false);
         when(usuarioMapper.toEntity(validRegistroDTO)).thenReturn(usuario);
@@ -110,14 +111,11 @@ public class RegistroServiceTest {
         when(usuarioRepository.save(any(Usuario.class))).thenReturn(usuario);
         when(usuarioMapper.toDto(usuario)).thenReturn(usuarioDTO);
 
-        // Act
         UsuarioDTO resultado = registroService.registrarNovoUsuario(validRegistroDTO);
 
-        // Assert
         assertNotNull(resultado);
         assertEquals(usuarioDTO, resultado);
 
-        // Verificações de chamadas de métodos
         verify(usuarioRepository).existsByEmail(validRegistroDTO.email());
         verify(usuarioRepository).existsByCpf(validRegistroDTO.cpf());
         verify(usuarioMapper).toEntity(validRegistroDTO);
@@ -129,10 +127,9 @@ public class RegistroServiceTest {
     @Test
     @DisplayName("Deve lançar exceção quando email já existe")
     void registrarNovoUsuarioEmailExistente() {
-        // Arrange
+
         when(usuarioRepository.existsByEmail(anyString())).thenReturn(true);
 
-        // Act & Assert
         EmailAlreadyExistsException exception = assertThrows(
                 EmailAlreadyExistsException.class,
                 () -> registroService.registrarNovoUsuario(validRegistroDTO)
@@ -147,11 +144,10 @@ public class RegistroServiceTest {
     @Test
     @DisplayName("Deve lançar exceção quando CPF já existe")
     void registrarNovoUsuarioCpfExistente() {
-        // Arrange
+
         when(usuarioRepository.existsByEmail(anyString())).thenReturn(false);
         when(usuarioRepository.existsByCpf(anyString())).thenReturn(true);
 
-        // Act & Assert
         CPFAlreadyExistsException exception = assertThrows(
                 CPFAlreadyExistsException.class,
                 () -> registroService.registrarNovoUsuario(validRegistroDTO)
@@ -166,7 +162,7 @@ public class RegistroServiceTest {
     @Test
     @DisplayName("Deve configurar senha encriptada e status ativo ao criar usuário")
     void deveConfigurarSenhaEStatusAoRegistrar() {
-        // Arrange
+
         when(usuarioRepository.existsByEmail(anyString())).thenReturn(false);
         when(usuarioRepository.existsByCpf(anyString())).thenReturn(false);
         when(usuarioMapper.toEntity(validRegistroDTO)).thenReturn(usuario);
@@ -174,14 +170,9 @@ public class RegistroServiceTest {
         when(usuarioRepository.save(any(Usuario.class))).thenReturn(usuario);
         when(usuarioMapper.toDto(usuario)).thenReturn(usuarioDTO);
 
-        // Act
         registroService.registrarNovoUsuario(validRegistroDTO);
 
-        // Assert - verificando se os valores estão sendo configurados corretamente
         verify(passwordEncoder).encode("senhaencriptada");
-
-        // Como não podemos acessar o objeto diretamente para verificar suas propriedades
-        // (devido ao uso de mocks), vamos verificar o comportamento esperado:
         verify(usuarioRepository).save(usuario);
     }
 }
