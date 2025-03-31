@@ -2,7 +2,7 @@ package br.com.bitwise.bithealth.modules.user.mapper.impl;
 
 import br.com.bitwise.bithealth.modules.user.dto.RegistroUsuarioDTO;
 import br.com.bitwise.bithealth.modules.user.dto.UsuarioDTO;
-import br.com.bitwise.bithealth.modules.user.endereco.mapper.EnderecoMapper;
+import br.com.bitwise.bithealth.modules.user.endereco.mapper.impl.EnderecoMapperImpl;
 import br.com.bitwise.bithealth.modules.user.endereco.dto.EnderecoDTO;
 import br.com.bitwise.bithealth.modules.user.mapper.UsuarioMapper;
 import br.com.bitwise.bithealth.modules.user.model.Usuario;
@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class UsuarioMapperImp implements UsuarioMapper {
+public class UsuarioMapperImpl implements UsuarioMapper {
 
-    private final EnderecoMapper enderecoMapper;
+    private final EnderecoMapperImpl enderecoMapper;
 
     @Override
     public Usuario toEntity(RegistroUsuarioDTO registroDTO) {
