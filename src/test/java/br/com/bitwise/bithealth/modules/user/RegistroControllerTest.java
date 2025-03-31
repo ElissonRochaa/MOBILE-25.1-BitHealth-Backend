@@ -8,6 +8,7 @@ import br.com.bitwise.bithealth.modules.user.exceptions.CPFAlreadyExistsExceptio
 import br.com.bitwise.bithealth.modules.user.exceptions.EmailAlreadyExistsException;
 import br.com.bitwise.bithealth.modules.user.model.ENUM.TipoUsuario;
 import br.com.bitwise.bithealth.modules.user.service.RegistroService;
+import br.com.bitwise.bithealth.modules.user.service.impl.RegistroServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -47,7 +48,6 @@ public class RegistroControllerTest {
                 "01234-567"
         );
 
-        // Criando um DTO válido para testes
         validRegistroDTO = new RegistroUsuarioDTO(
                 "Teste Usuario",
                 "teste@email.com",
@@ -77,13 +77,11 @@ public class RegistroControllerTest {
     @Test
     @DisplayName("Deve retornar status 201 quando o registro for bem-sucedido")
     void registrarUsuarioSucesso() {
-        // Arrange
+
         when(registroService.registrarNovoUsuario(any(RegistroUsuarioDTO.class))).thenReturn(usuarioDTO);
 
-        // Act
         ResponseEntity<?> response = registroController.registrarUsuario(validRegistroDTO);
 
-        // Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals("Usuário registrado", response.getBody());
         verify(registroService, times(1)).registrarNovoUsuario(validRegistroDTO);
@@ -92,14 +90,12 @@ public class RegistroControllerTest {
     @Test
     @DisplayName("Deve retornar status 409 quando o email já existir")
     void registrarUsuarioEmailExistente() {
-        // Arrange
+
         when(registroService.registrarNovoUsuario(any(RegistroUsuarioDTO.class)))
                 .thenThrow(new EmailAlreadyExistsException("Email já cadastrado"));
 
-        // Act
         ResponseEntity<?> response = registroController.registrarUsuario(validRegistroDTO);
 
-        // Assert
         assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
         assertEquals("Email já cadastrado", response.getBody());
         verify(registroService, times(1)).registrarNovoUsuario(validRegistroDTO);
@@ -108,14 +104,12 @@ public class RegistroControllerTest {
     @Test
     @DisplayName("Deve retornar status 409 quando o CPF já existir")
     void registrarUsuarioCpfExistente() {
-        // Arrange
+
         when(registroService.registrarNovoUsuario(any(RegistroUsuarioDTO.class)))
                 .thenThrow(new CPFAlreadyExistsException("CPF já cadastrado"));
 
-        // Act
         ResponseEntity<?> response = registroController.registrarUsuario(validRegistroDTO);
 
-        // Assert
         assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
         assertEquals("CPF já cadastrado", response.getBody());
         verify(registroService, times(1)).registrarNovoUsuario(validRegistroDTO);
@@ -124,14 +118,12 @@ public class RegistroControllerTest {
     @Test
     @DisplayName("Deve retornar status 409 para qualquer outra exceção de runtime")
     void registrarUsuarioOutraExcecao() {
-        // Arrange
+
         when(registroService.registrarNovoUsuario(any(RegistroUsuarioDTO.class)))
                 .thenThrow(new RuntimeException("Erro inesperado"));
 
-        // Act
         ResponseEntity<?> response = registroController.registrarUsuario(validRegistroDTO);
 
-        // Assert
         assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
         assertEquals("Erro inesperado", response.getBody());
         verify(registroService, times(1)).registrarNovoUsuario(validRegistroDTO);

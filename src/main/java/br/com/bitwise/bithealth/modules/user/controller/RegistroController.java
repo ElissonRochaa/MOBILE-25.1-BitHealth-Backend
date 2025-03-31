@@ -1,12 +1,10 @@
 package br.com.bitwise.bithealth.modules.user.controller;
 
 import br.com.bitwise.bithealth.modules.user.dto.RegistroUsuarioDTO;
-import br.com.bitwise.bithealth.modules.user.dto.UsuarioDTO;
-import br.com.bitwise.bithealth.modules.user.model.Usuario;
 import br.com.bitwise.bithealth.modules.user.service.RegistroService;
+import br.com.bitwise.bithealth.modules.user.service.impl.RegistroServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

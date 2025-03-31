@@ -5,6 +5,7 @@ import br.com.bitwise.bithealth.modules.user.dto.LoginRequestDTO;
 import br.com.bitwise.bithealth.modules.user.dto.LoginResponseDTO;
 import br.com.bitwise.bithealth.modules.user.exceptions.MismatchPasswordOrEmail;
 import br.com.bitwise.bithealth.modules.user.service.AuthenticationService;
+import br.com.bitwise.bithealth.modules.user.service.impl.AuthenticationServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,16 +35,14 @@ public class AuthenticationControllerTest {
     @Test
     @DisplayName("Deve retornar status OK quando login for bem-sucedido")
     void loginSuccess() {
-        // Arrange
+
         LoginRequestDTO loginRequest = new LoginRequestDTO("user@example.com", "password123");
         LoginResponseDTO expectedResponse = new LoginResponseDTO("User", "user@example.com", "jwt-token");
 
         when(authenticationService.authenticate(loginRequest)).thenReturn(expectedResponse);
 
-        // Act
         ResponseEntity<LoginResponseDTO> responseEntity = authenticationController.login(loginRequest);
 
-        // Assert
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(expectedResponse, responseEntity.getBody());
         verify(authenticationService, times(1)).authenticate(loginRequest);
@@ -52,32 +51,28 @@ public class AuthenticationControllerTest {
     @Test
     @DisplayName("Deve passar o DTO corretamente para o service")
     void loginPassesCorrectDTOToService() {
-        // Arrange
+
         LoginRequestDTO loginRequest = new LoginRequestDTO("admin@example.com", "admin123");
         LoginResponseDTO mockResponse = new LoginResponseDTO("Admin", "admin@example.com", "admin-token");
 
         when(authenticationService.authenticate(loginRequest)).thenReturn(mockResponse);
 
-        // Act
         authenticationController.login(loginRequest);
 
-        // Assert
         verify(authenticationService).authenticate(loginRequest);
     }
 
     @Test
     @DisplayName("Deve retornar UNAUTHORIZED quando as credenciais forem inválidas")
     void loginUnauthorizedOnInvalidCredentials() {
-        // Arrange
+
         LoginRequestDTO loginRequest = new LoginRequestDTO("wrong@example.com", "wrongpass");
 
         when(authenticationService.authenticate(loginRequest))
                 .thenThrow(new MismatchPasswordOrEmail("Credenciais inválidas"));
 
-        // Act
         ResponseEntity<LoginResponseDTO> responseEntity = authenticationController.login(loginRequest);
 
-        // Assert
         assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
         assertNull(responseEntity.getBody());
     }
