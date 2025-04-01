@@ -25,13 +25,11 @@ public class ValidDataValidator implements ConstraintValidator<ValidData, String
 
         try {
             Date date = dateFormat.parse(value);
+            String formattedDate = dateFormat.format(date);
 
-            Date today = new Date();
-            if (date.after(today)) {
-                return false;
-            }
+            System.out.println("Formatted Date: " + formattedDate);
 
-            return dateFormat.format(date).equals(value);
+            return formattedDate.equals(value);
         } catch (Exception e) {
             return false;
         }
