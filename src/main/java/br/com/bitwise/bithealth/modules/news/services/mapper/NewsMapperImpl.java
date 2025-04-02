@@ -23,6 +23,10 @@ public class NewsMapperImpl implements NewsMapper {
     @Override
     public News requestToModel(NewsRequest newsRequest, Usuario administrador) {
 
+        if (administrador == null){
+            throw new RuntimeException("O Usuario não existe");
+        }
+
         if(administrador.getTipoUsuario() != TipoUsuario.ADMINISTRADOR){
             throw new RuntimeException("Usuario não é administrador");
         }

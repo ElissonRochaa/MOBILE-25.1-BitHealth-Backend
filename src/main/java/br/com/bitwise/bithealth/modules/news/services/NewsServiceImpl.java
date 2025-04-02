@@ -36,21 +36,20 @@ public class NewsServiceImpl implements NewsService {
         }
 
         String token = extractTokenFromRequest(request);
-        System.out.println(token);
 
         if (token == null) {
             throw new RuntimeException("Token de autenticação inválido");
         }
 
         String id = tokenService.decodeToken(token);
-        System.out.println(id);
-        Usuario administrador = usuarioRepository.getUsuarioById(UUID.fromString(id));
+
+        Usuario administrador = usuarioRepository.getUsuarioByEmail(id);
 
         News news = newsMapper.requestToModel(newsRequest, administrador);
 
         news = newsRepository.save(news);
 
-        String tokenId = tokenService.generateTokenId(news.getId());
+        String tokenId = tokenService.generateTokenId(news.getId().toString());
 
         return newsMapper.modelToResponse(news, tokenId);
     }
@@ -77,7 +76,7 @@ public class NewsServiceImpl implements NewsService {
         List<News> newsList = newsRepository.findAll();
 
         return newsList.stream()
-                .map(news -> newsMapper.modelToResponse(news, tokenService.generateTokenId(news.getId())))
+                .map(news -> newsMapper.modelToResponse(news, tokenService.generateTokenId(news.getId().toString())))
                 .collect(Collectors.toList());
     }
 
