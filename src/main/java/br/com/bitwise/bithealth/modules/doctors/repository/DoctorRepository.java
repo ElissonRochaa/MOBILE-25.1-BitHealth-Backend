@@ -1,6 +1,6 @@
-package br.com.bitwise.bithealth.modules.medicos.repository;
+package br.com.bitwise.bithealth.modules.doctors.repository;
 
-import br.com.bitwise.bithealth.modules.medicos.model.Doctor;
+import br.com.bitwise.bithealth.modules.doctors.model.Doctor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

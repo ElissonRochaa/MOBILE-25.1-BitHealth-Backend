@@ -1,4 +1,4 @@
-package br.com.bitwise.bithealth.modules.medicos.model;
+package br.com.bitwise.bithealth.modules.doctors.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

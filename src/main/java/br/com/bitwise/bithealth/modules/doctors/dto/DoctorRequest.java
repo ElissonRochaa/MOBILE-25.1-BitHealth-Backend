@@ -1,4 +1,4 @@
-package br.com.bitwise.bithealth.modules.medicos.dto;
+package br.com.bitwise.bithealth.modules.doctors.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;

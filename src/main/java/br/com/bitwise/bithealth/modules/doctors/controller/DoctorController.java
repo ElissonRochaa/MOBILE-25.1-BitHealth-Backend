@@ -1,8 +1,8 @@
-package br.com.bitwise.bithealth.modules.medicos.controller;
+package br.com.bitwise.bithealth.modules.doctors.controller;
 
-import br.com.bitwise.bithealth.modules.medicos.dto.DoctorRequest;
-import br.com.bitwise.bithealth.modules.medicos.dto.DoctorResponse;
-import br.com.bitwise.bithealth.modules.medicos.services.DoctorService;
+import br.com.bitwise.bithealth.modules.doctors.dto.DoctorRequest;
+import br.com.bitwise.bithealth.modules.doctors.dto.DoctorResponse;
+import br.com.bitwise.bithealth.modules.doctors.services.DoctorService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

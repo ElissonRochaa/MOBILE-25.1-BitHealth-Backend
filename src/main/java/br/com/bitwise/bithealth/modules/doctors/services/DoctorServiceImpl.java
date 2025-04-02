@@ -1,11 +1,11 @@
-package br.com.bitwise.bithealth.modules.medicos.services;
+package br.com.bitwise.bithealth.modules.doctors.services;
 
-import br.com.bitwise.bithealth.modules.medicos.dto.DoctorRequest;
-import br.com.bitwise.bithealth.modules.medicos.dto.DoctorResponse;
-import br.com.bitwise.bithealth.modules.medicos.exceptions.DoctorNotFoundException;
-import br.com.bitwise.bithealth.modules.medicos.services.mapper.DoctorMapper;
-import br.com.bitwise.bithealth.modules.medicos.model.Doctor;
-import br.com.bitwise.bithealth.modules.medicos.repository.DoctorRepository;
+import br.com.bitwise.bithealth.modules.doctors.dto.DoctorRequest;
+import br.com.bitwise.bithealth.modules.doctors.dto.DoctorResponse;
+import br.com.bitwise.bithealth.modules.doctors.exceptions.DoctorNotFoundException;
+import br.com.bitwise.bithealth.modules.doctors.services.mapper.DoctorMapper;
+import br.com.bitwise.bithealth.modules.doctors.model.Doctor;
+import br.com.bitwise.bithealth.modules.doctors.repository.DoctorRepository;
 import br.com.bitwise.bithealth.modules.unidade_saude.repository.UnidadeSaudeRepository;
 import br.com.bitwise.bithealth.security.TokenService;
 import jakarta.transaction.Transactional;

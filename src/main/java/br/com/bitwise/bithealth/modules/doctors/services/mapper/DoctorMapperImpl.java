@@ -1,8 +1,8 @@
-package br.com.bitwise.bithealth.modules.medicos.services.mapper;
+package br.com.bitwise.bithealth.modules.doctors.services.mapper;
 
-import br.com.bitwise.bithealth.modules.medicos.dto.DoctorRequest;
-import br.com.bitwise.bithealth.modules.medicos.dto.DoctorResponse;
-import br.com.bitwise.bithealth.modules.medicos.model.Doctor;
+import br.com.bitwise.bithealth.modules.doctors.dto.DoctorRequest;
+import br.com.bitwise.bithealth.modules.doctors.dto.DoctorResponse;
+import br.com.bitwise.bithealth.modules.doctors.model.Doctor;
 import br.com.bitwise.bithealth.modules.unidade_saude.model.UnidadeSaude;
 import br.com.bitwise.bithealth.modules.unidade_saude.services.UnidadeSaudeService;
 import br.com.bitwise.bithealth.security.TokenService;
