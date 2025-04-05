@@ -1,5 +1,6 @@
 package br.com.bitwise.bithealth.modules.news.dto;
 
+import br.com.bitwise.bithealth.modules.news.media.DTO.MediaRequest;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -14,8 +15,8 @@ public record NewsRequest(
         String conteudo,
 
         @NotNull(message = "O ID do administrador é obrigatório.")
-        String administradorId
+        String administradorId,
 
-
+        MediaRequest mediaRequest
 ) {
 }

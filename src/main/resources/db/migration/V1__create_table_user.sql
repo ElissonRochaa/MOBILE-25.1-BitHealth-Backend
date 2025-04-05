@@ -111,3 +111,10 @@ CREATE TABLE noticias (
     administrador_id UUID NOT NULL,
     FOREIGN KEY (administrador_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
+
+CREATE TABLE media (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    imagem TEXT NOT NULL,
+    noticia_id UUID NOT NULL UNIQUE,
+    FOREIGN KEY (noticia_id) REFERENCES noticias(id) ON DELETE CASCADE
+);

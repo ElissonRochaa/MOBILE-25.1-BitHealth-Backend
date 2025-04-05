@@ -36,7 +36,6 @@ public class NewsController {
     @SecurityRequirement(name = "JWTAuth")
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity<NewsResponse> createNews(@RequestBody @Valid NewsRequest newsRequest, HttpServletRequest request) {
-        // Passa o HttpServletRequest para o serviço
         NewsResponse newsResponse = newsService.createNews(newsRequest, request);
         URI uri = URI.create("/news/" + newsResponse.tokenId());
         return ResponseEntity.created(uri).body(newsResponse);

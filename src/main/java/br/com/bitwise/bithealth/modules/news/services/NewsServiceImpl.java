@@ -2,6 +2,7 @@ package br.com.bitwise.bithealth.modules.news.services;
 
 import br.com.bitwise.bithealth.modules.news.dto.NewsRequest;
 import br.com.bitwise.bithealth.modules.news.dto.NewsResponse;
+import br.com.bitwise.bithealth.modules.news.media.Services.MediaServices;
 import br.com.bitwise.bithealth.modules.news.model.News;
 import br.com.bitwise.bithealth.modules.news.repository.NewsRepository;
 import br.com.bitwise.bithealth.modules.news.services.mapper.NewsMapper;
