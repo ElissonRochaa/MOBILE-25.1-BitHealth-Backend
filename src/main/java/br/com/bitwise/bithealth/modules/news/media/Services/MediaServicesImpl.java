@@ -13,18 +13,21 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class MedisServicesImpl implements MediaServices {
+public class MediaServicesImpl implements MediaServices {
 
     private final MediasMapper mediasMapper;
     private final MediaRepository mediaRepository;
     private final TokenService tokenService;
 
     @Override
-    public MediaResponse saveMedia(MediaRequest mediaRequest) {
-        String noticiaId = tokenService.decodeToken(mediaRequest.noticiaId());
-        Media media = mediasMapper.requestToDomain(mediaRequest, noticiaId);
+    public MediaResponse saveMedia(MediaRequest mediaRequest, String noticiaTokenId) {
+
+        Media media = mediasMapper.requestToDomain(mediaRequest, noticiaTokenId);
+
         media = mediaRepository.save(media);
+
         String tokenId = tokenService.generateTokenId(String.valueOf(media.getId()));
+
         return mediasMapper.domainToResponse(media, tokenId);
     }
 

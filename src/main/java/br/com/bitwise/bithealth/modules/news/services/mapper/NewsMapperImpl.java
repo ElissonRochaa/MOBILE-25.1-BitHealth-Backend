@@ -39,13 +39,15 @@ public class NewsMapperImpl implements NewsMapper {
     }
 
     @Override
-    public NewsResponse modelToResponse(News news, String tokenId) {
+    public NewsResponse modelToResponse(News news, String tokenId,String administradorTokenId) {
+
         return new NewsResponse(
                 tokenId,
                 news.getTitulo(),
                 news.getConteudo(),
                 news.getDataPublicacao(),
-                tokenId
+                administradorTokenId
+
         );
     }
 }
