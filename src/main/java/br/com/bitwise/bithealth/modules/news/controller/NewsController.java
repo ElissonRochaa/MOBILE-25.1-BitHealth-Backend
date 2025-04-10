@@ -35,8 +35,8 @@ public class NewsController {
     @PostMapping("/")
     @SecurityRequirement(name = "JWTAuth")
     @PreAuthorize("hasRole('ADMINISTRADOR')")
-    public ResponseEntity<NewsResponse> createNews(@RequestBody @Valid NewsRequest newsRequest, HttpServletRequest request) {
-        NewsResponse newsResponse = newsService.createNews(newsRequest, request);
+    public ResponseEntity<NewsResponse> createNews(@RequestBody @Valid NewsRequest newsRequest) {
+        NewsResponse newsResponse = newsService.createNews(newsRequest);
         URI uri = URI.create("/news/" + newsResponse.tokenId());
         return ResponseEntity.created(uri).body(newsResponse);
     }

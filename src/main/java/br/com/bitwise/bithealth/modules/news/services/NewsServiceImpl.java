@@ -2,7 +2,12 @@ package br.com.bitwise.bithealth.modules.news.services;
 
 import br.com.bitwise.bithealth.modules.news.dto.NewsRequest;
 import br.com.bitwise.bithealth.modules.news.dto.NewsResponse;
+import br.com.bitwise.bithealth.modules.news.media.DTO.MediaRequest;
+import br.com.bitwise.bithealth.modules.news.media.DTO.MediaResponse;
 import br.com.bitwise.bithealth.modules.news.media.Services.MediaServices;
+import br.com.bitwise.bithealth.modules.news.media.Services.MediaServicesImpl;
+import br.com.bitwise.bithealth.modules.news.media.domain.Media;
+import br.com.bitwise.bithealth.modules.news.media.repository.MediaRepository;
 import br.com.bitwise.bithealth.modules.news.model.News;
 import br.com.bitwise.bithealth.modules.news.repository.NewsRepository;
 import br.com.bitwise.bithealth.modules.news.services.mapper.NewsMapper;
@@ -28,31 +33,28 @@ public class NewsServiceImpl implements NewsService {
     private final NewsMapper newsMapper;
     private final TokenService tokenService;
     private final UsuarioRepository usuarioRepository;
+    private final MediaServices mediaServices;
 
 
-    public NewsResponse createNews(NewsRequest newsRequest, HttpServletRequest request) {
+    public NewsResponse createNews(NewsRequest newsRequest) {
 
         if (newsRepository.existsByTitulo(newsRequest.titulo())) {
             throw new RuntimeException("Já existe uma notícia com o título informado");
         }
 
-        String token = extractTokenFromRequest(request);
+        UUID admId = UUID.fromString(newsRequest.administradorId());
 
-        if (token == null) {
-            throw new RuntimeException("Token de autenticação inválido");
-        }
 
-        String id = tokenService.decodeToken(token);
-
-        Usuario administrador = usuarioRepository.getUsuarioByEmail(id);
+        Usuario administrador = usuarioRepository.getUsuarioById(admId);
 
         News news = newsMapper.requestToModel(newsRequest, administrador);
 
         news = newsRepository.save(news);
-
         String tokenId = tokenService.generateTokenId(news.getId().toString());
 
-        return newsMapper.modelToResponse(news, tokenId);
+        mediaServices.saveMedia(newsRequest.mediaRequest(), news.getId().toString());
+
+        return newsMapper.modelToResponse(news, tokenId, tokenService.generateTokenId(newsRequest.administradorId()));
     }
 
     private String extractTokenFromRequest(HttpServletRequest request) {
@@ -77,7 +79,7 @@ public class NewsServiceImpl implements NewsService {
         List<News> newsList = newsRepository.findAll();
 
         return newsList.stream()
-                .map(news -> newsMapper.modelToResponse(news, tokenService.generateTokenId(news.getId().toString())))
+                .map(news -> newsMapper.modelToResponse(news, tokenService.generateTokenId(news.getId().toString()),tokenService.generateTokenId(news.getAdministrador().getId().toString())))
                 .collect(Collectors.toList());
     }
 

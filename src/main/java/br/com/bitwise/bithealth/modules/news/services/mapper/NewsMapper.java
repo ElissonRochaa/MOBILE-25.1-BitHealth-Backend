@@ -10,5 +10,5 @@ public interface NewsMapper {
 
     News requestToModel(NewsRequest newsRequest, Usuario administrador);
 
-    NewsResponse modelToResponse(News news, String tokenId);
+    NewsResponse modelToResponse(News news, String tokenId, String administradorTokenId);
 }

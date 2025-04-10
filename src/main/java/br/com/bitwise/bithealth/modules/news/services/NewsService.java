@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface NewsService {
 
-    NewsResponse createNews(NewsRequest newsRequest, HttpServletRequest httpServletRequest);
+    NewsResponse createNews(NewsRequest newsRequest);
     News getNewsById(String tokenId);
     List<NewsResponse> getAllNews();
     void deleteNewsById(String tokenId);
