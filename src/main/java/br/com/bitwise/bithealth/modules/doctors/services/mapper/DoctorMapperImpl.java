@@ -43,7 +43,7 @@ public class DoctorMapperImpl implements DoctorMapper {
                 doctor.getNome(),
                 doctor.getCrm(),
                 doctor.getEspecialidade(),
-                doctor.getUnidadeSaude().getId(),
+                doctor.getUnidadeSaude().getNome(),
                 doctor.getDataPlantao(),
                 doctor.getHorarioInicio(),
                 doctor.getHorarioFim(),

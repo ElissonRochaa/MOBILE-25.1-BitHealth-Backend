@@ -14,8 +14,8 @@ public record DoctorResponse(
         String crm,
         String especialidade,
 
-        @JsonProperty("unidade_saude_id")
-        UUID unidadeSaudeId,
+        @JsonProperty("unidade_saude_name")
+        String unidadeSaudeNome,
 
         @JsonProperty("data_plantao")
         String dataPlantao,

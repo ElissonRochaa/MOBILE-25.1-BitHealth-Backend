@@ -1,5 +1,7 @@
 package br.com.bitwise.bithealth.config;
 
+import br.com.bitwise.bithealth.modules.doctors.model.Doctor;
+import br.com.bitwise.bithealth.modules.doctors.repository.DoctorRepository;
 import br.com.bitwise.bithealth.modules.medicamentos.model.ENUMS.TipoMedicamentoEnum;
 import br.com.bitwise.bithealth.modules.medicamentos.model.Medicamento;
 import br.com.bitwise.bithealth.modules.medicamentos.repository.MedicamentosRepository;
@@ -21,9 +23,13 @@ public class DataInitializer {
     private final MedicamentosRepository medicamentoRepository;
     private final UnidadeSaudeRepository unidadeSaudeRepository;
     private final EnderecoUnidadesRepository enderecoUnidadesRepository;
+    private final DoctorRepository doctorRepository;
 
     @PostConstruct
     public void init() {
+        if (doctorRepository.count() > 0) {
+            return;
+        }
         if (medicamentoRepository.count() > 0) {
             return;
         }
@@ -37,7 +43,46 @@ public class DataInitializer {
         System.out.println("Populando dados iniciais de medicamentos");
         populateMedicamentos(unidades);
         System.out.println("Dados de medicamentos populados com sucesso");
+        System.out.println("Populando dados iniciais de médicos");
+        populateDoctors(unidades);
+        System.out.println("Dados de médicos populados com sucesso");
 
+    }
+
+    private void populateDoctors(List<UnidadeSaude> unidades) {
+        Doctor medico1 = new Doctor(
+                "Dr. José da Silva",
+                "123456",
+                "Cardiologia",
+                unidades.get(0),
+                "Segunda-feira",
+                "08:00",
+                "17:00",
+                "Plantonista"
+        );
+        Doctor medico2 = new Doctor(
+                "Dra. Maria Oliveira",
+                "654321",
+                "Pediatria",
+                unidades.get(1),
+                "Terça-feira",
+                "08:00",
+                "17:00",
+                "Plantonista"
+        );
+        Doctor medico3 = new Doctor(
+                "Dr. João Santos",
+                "789012",
+                "Dermatologia",
+                unidades.get(2),
+                "Quarta-feira",
+                "08:00",
+                "17:00",
+                "Plantonista"
+        );
+        doctorRepository.save(medico1);
+        doctorRepository.save(medico2);
+        doctorRepository.save(medico3);
     }
 
     private List<UnidadeSaude> populateUnidadeSaude() {
