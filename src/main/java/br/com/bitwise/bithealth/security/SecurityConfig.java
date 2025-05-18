@@ -14,6 +14,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -33,28 +38,32 @@ public class SecurityConfig {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .cors().configurationSource(corsConfigurationSource())
+                .and()
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(SWAGGER_PERMITIONS_LIST).permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/registro").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMINISTRADOR")
                         .requestMatchers("/api/cidadao/**").hasRole("CIDADAO")
-                        .requestMatchers(HttpMethod.GET, "api/unidades-saude/").hasAnyRole("ADMINISTRADOR", "CIDADAO")
-                        .requestMatchers(HttpMethod.POST, "api/unidades-saude/").hasRole("ADMINISTRADOR")
-                        .requestMatchers(HttpMethod.DELETE, "api/unidades-saude/**").hasRole("ADMINISTRADOR")
+                        .requestMatchers(HttpMethod.GET, "/api/unidades-saude/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/unidades-saude/").hasRole("ADMINISTRADOR")
+                        .requestMatchers(HttpMethod.DELETE, "/api/unidades-saude/**").hasRole("ADMINISTRADOR")
 
-                        .requestMatchers(HttpMethod.GET, "api/servicos-saude/").hasAnyRole("ADMINISTRADOR", "CIDADAO")
+                        .requestMatchers(HttpMethod.GET, "api/servicos-saude/").permitAll()
                         .requestMatchers(HttpMethod.POST, "api/servicos-saude/").hasRole("ADMINISTRADOR")
                         .requestMatchers(HttpMethod.DELETE, "api/servicos-saude/**").hasRole("ADMINISTRADOR")
 
-                        .requestMatchers(HttpMethod.GET, "/api/medicamentos").hasAnyRole("ADMINISTRADOR", "CIDADAO")
+                        .requestMatchers(HttpMethod.GET, "/api/medicamentos/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/medicamentos").hasRole("ADMINISTRADOR")
                         .requestMatchers(HttpMethod.DELETE, "/api/medicamentos/**").hasRole("ADMINISTRADOR")
                         .requestMatchers(HttpMethod.PUT, "/api/medicamentos/**").hasRole("ADMINISTRADOR")
 
-                        .requestMatchers(HttpMethod.GET, "api/calendario-vacinacao").hasAnyRole("ADMINISTRADOR", "CIDADAO")
+                        .requestMatchers(HttpMethod.GET, "api/calendario-vacinacao").permitAll()
                         .requestMatchers(HttpMethod.POST, "api/calendario-vacinacao").hasRole("ADMINISTRADOR")
                         .requestMatchers(HttpMethod.DELETE, "api/calendario-vacinacao/**").hasRole("ADMINISTRADOR")
+
+                        .requestMatchers(HttpMethod.GET, "api/doctors/**").permitAll()
 
                         .anyRequest().authenticated()
                 )
@@ -70,5 +79,19 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowedOrigins(List.of("http://localhost:53145"));
+        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+        corsConfiguration.setAllowedHeaders(List.of("Content-Type", "Authorization"));
+        corsConfiguration.setAllowCredentials(true);  // Permite enviar cookies e credenciais
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfiguration);  // Aplica a configuração CORS a todas as rotas
+
+        return source;
     }
 }

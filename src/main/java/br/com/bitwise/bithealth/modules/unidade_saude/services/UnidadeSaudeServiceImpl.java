@@ -81,4 +81,10 @@ public class UnidadeSaudeServiceImpl implements UnidadeSaudeService {
         enderecoUnidadesRepository.deleteByUnidadeSaudeId(UUID.fromString(id));
         unidadeSaudeRepository.deleteById(UUID.fromString(id));
     }
+
+    @Override
+    public String getUnidadeSaudeNameByIdMedicamento(UUID id) {
+        return unidadeSaudeRepository.findNomeUnidadeByMedicamentoId(id)
+                .describeConstable().orElseThrow(() -> new UnidadeSaudeNotFoundException("Unidade de saúde não encontrada"));
+    }
 }

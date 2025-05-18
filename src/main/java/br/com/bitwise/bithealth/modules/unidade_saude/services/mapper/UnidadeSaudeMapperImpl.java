@@ -13,6 +13,7 @@ import br.com.bitwise.bithealth.modules.unidade_saude.dto.UnidadeSaudeRequest;
 import br.com.bitwise.bithealth.modules.unidade_saude.dto.UnidadeSaudeResponse;
 import br.com.bitwise.bithealth.modules.unidade_saude.model.ENUMS.TipoUnidade;
 import br.com.bitwise.bithealth.modules.unidade_saude.model.UnidadeSaude;
+import br.com.bitwise.bithealth.modules.unidade_saude.repository.UnidadeSaudeRepository;
 import br.com.bitwise.bithealth.security.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -28,6 +29,7 @@ public class UnidadeSaudeMapperImpl implements UnidadeSaudeMapper {
     private final ServicosSaudeRepository servicosSaudeRepository;
     private final MedicamentosRepository medicamentosRepository;
     private final EnderecoUnidadesRepository enderecoUnidadesRepository;
+    private final UnidadeSaudeRepository unidadeSaudeRepository;
     private final TokenService tokenService;
 
     @Override
@@ -81,9 +83,15 @@ public class UnidadeSaudeMapperImpl implements UnidadeSaudeMapper {
                         medicamento.getNome(),
                         medicamento.getDescricao(),
                         medicamento.getQuantidade(),
-                        medicamento.getTipoMedicamento().toString()
+                        medicamento.getTipoMedicamento().toString(),
+                        get_nome_unidade(medicamento.getUnidadeSaude().getId())
                 ))
                 .collect(Collectors.toList());
+    }
+
+    private String get_nome_unidade(UUID unidadeSaudeId) {
+        UnidadeSaude unidadeSaude = unidadeSaudeRepository.findById(unidadeSaudeId).orElse(null);
+        return unidadeSaude != null ? unidadeSaude.getNome() : null;
     }
 
     private EnderecoUnidadesResponseDTO mapEnderecoUnidades(UUID unidadeSaudeId) {

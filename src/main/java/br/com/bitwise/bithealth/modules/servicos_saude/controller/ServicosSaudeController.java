@@ -34,7 +34,6 @@ public class ServicosSaudeController {
 
     @GetMapping("/")
     @SecurityRequirement(name = "JWTAuth")
-    @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('CIDADAO')")
     public ResponseEntity<List<ServicosSaudeResponse>> getAllServicosSaude() {
         List<ServicosSaudeResponse> response = servicosSaudeServices.getAllServicosSaude();
         return ResponseEntity.ok().body(response);

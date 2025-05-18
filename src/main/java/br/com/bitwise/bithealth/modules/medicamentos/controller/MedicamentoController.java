@@ -34,7 +34,6 @@ public class MedicamentoController {
 
     @GetMapping("/")
     @SecurityRequirement(name = "JWTAuth")
-    @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('CIDADAO')")
     public ResponseEntity<List<MedicamentoResponse>> getAllMedicamentos() {
         List<MedicamentoResponse> response = medicamentoServices.getAllMedicamentos();
         return ResponseEntity.ok().body(response);

@@ -8,6 +8,7 @@ public record MedicamentoResponse(
         String nome,
         String descricao,
         Integer quantidade,
-        String tipoMedicamento
+        String tipoMedicamento,
+        String disponibilidade
 ) {
 }

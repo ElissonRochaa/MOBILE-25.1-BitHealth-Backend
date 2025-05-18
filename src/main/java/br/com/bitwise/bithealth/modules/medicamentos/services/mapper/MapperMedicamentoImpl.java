@@ -27,13 +27,14 @@ public class MapperMedicamentoImpl implements MapperMedicamento {
         );
     }
 
-    public MedicamentoResponse modelToResponse(Medicamento medicamentoSalvo, String tokenId) {
+    public MedicamentoResponse modelToResponse(Medicamento medicamentoSalvo,String tokenId) {
         return new MedicamentoResponse(
                 tokenId,
                 medicamentoSalvo.getNome(),
                 medicamentoSalvo.getDescricao(),
                 medicamentoSalvo.getQuantidade(),
-                medicamentoSalvo.getTipoMedicamento().toString()
+                medicamentoSalvo.getTipoMedicamento().toString(),
+                unidadeServices.getUnidadeSaudeNameByIdMedicamento(medicamentoSalvo.getId())
         );
     }
 }

@@ -26,7 +26,6 @@ public class NewsController {
 
     @GetMapping("/")
     @SecurityRequirement(name = "JWTAuth")
-    @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('CIDADAO')")
     public ResponseEntity<List<NewsResponse>> getAllNews() {
         List<NewsResponse> newsList = newsService.getAllNews();
         return ResponseEntity.ok().body(newsList);

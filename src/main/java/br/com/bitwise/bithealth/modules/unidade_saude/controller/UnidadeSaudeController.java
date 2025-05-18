@@ -16,7 +16,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/unidades-saude")
+@RequestMapping("/api/unidades-saude")
 @RequiredArgsConstructor
 @Tag(name = "Unidades de Saúde")
 public class UnidadeSaudeController {
@@ -25,7 +25,6 @@ public class UnidadeSaudeController {
 
     @GetMapping("/")
     @SecurityRequirement(name = "JWTAuth")
-    @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('CIDADAO')")
     public ResponseEntity<List<UnidadeSaudeResponse>> getAllUnidades() {
         List<UnidadeSaudeResponse> unidades = unidadeSaudeService.getAllUnidadeSaude();
         return ResponseEntity.ok().body(unidades);

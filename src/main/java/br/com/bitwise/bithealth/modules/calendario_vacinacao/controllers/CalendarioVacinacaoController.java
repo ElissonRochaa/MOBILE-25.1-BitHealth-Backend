@@ -24,7 +24,6 @@ public class CalendarioVacinacaoController {
 
     @GetMapping("/")
     @SecurityRequirement(name = "JWTAuth")
-    @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('CIDADAO')")
     public ResponseEntity<List<CalendarioResponse>> getAllCalendarioVacinacao() {
         List<CalendarioResponse> calendario = calendarioVacinacaoServices.getAllCalendarioVacinacao();
         return ResponseEntity.ok().body(calendario);
