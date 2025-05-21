@@ -42,19 +42,20 @@ public class NewsServiceImpl implements NewsService {
             throw new RuntimeException("Já existe uma notícia com o título informado");
         }
 
-        UUID admId = UUID.fromString(newsRequest.administradorId());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+        String admUsername = authentication.getName();
 
-        Usuario administrador = usuarioRepository.getUsuarioById(admId);
+        Usuario adm = usuarioRepository.getUsuarioByEmail(admUsername);
 
-        News news = newsMapper.requestToModel(newsRequest, administrador);
+        News news = newsMapper.requestToModel(newsRequest, adm);
 
         news = newsRepository.save(news);
         String tokenId = tokenService.generateTokenId(news.getId().toString());
 
         mediaServices.saveMedia(newsRequest.mediaRequest(), news.getId().toString());
 
-        return newsMapper.modelToResponse(news, tokenId, tokenService.generateTokenId(newsRequest.administradorId()));
+        return newsMapper.modelToResponse(news, tokenId, tokenService.generateTokenId(adm.getId().toString()));
     }
 
     private String extractTokenFromRequest(HttpServletRequest request) {

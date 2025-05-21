@@ -14,9 +14,6 @@ public record NewsRequest(
         @NotBlank(message = "O conteúdo da notícia é obrigatório.")
         String conteudo,
 
-        @NotNull(message = "O ID do administrador é obrigatório.")
-        String administradorId,
-
         MediaRequest mediaRequest
 ) {
 }
