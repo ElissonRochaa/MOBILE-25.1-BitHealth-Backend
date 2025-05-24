@@ -70,7 +70,8 @@ public class UnidadeSaudeMapperImpl implements UnidadeSaudeMapper {
                         servicosSaude.getNome(),
                         servicosSaude.getDescricao(),
                         servicosSaude.getHorarioInicio(),
-                        servicosSaude.getHorarioFim()
+                        servicosSaude.getHorarioFim(),
+                        servicosSaude.getUnidadeSaude().toString()
                 ))
                 .collect(Collectors.toList());
     }
