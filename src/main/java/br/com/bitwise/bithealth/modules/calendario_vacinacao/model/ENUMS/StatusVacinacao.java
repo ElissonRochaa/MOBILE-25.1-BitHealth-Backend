@@ -1,8 +1,8 @@
 package br.com.bitwise.bithealth.modules.calendario_vacinacao.model.ENUMS;
 
 public enum StatusVacinacao {
-    AGENDADO("Agendado"),
-    CANCELADO("Cancelado"),
+    ANDAMENTO("Em Andamento"),
+    EMBREVE("Em Breve"),
     REALIZADO("Realizado");
 
     private final String tipo;
