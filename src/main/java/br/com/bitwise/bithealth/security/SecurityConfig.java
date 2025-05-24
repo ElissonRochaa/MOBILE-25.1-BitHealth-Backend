@@ -59,7 +59,12 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/medicamentos/**").hasRole("ADMINISTRADOR")
                         .requestMatchers(HttpMethod.PUT, "/api/medicamentos/**").hasRole("ADMINISTRADOR")
 
-                        .requestMatchers(HttpMethod.GET, "api/calendario-vacinacao").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/news/").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/news").hasRole("ADMINISTRADOR")
+                        .requestMatchers(HttpMethod.DELETE, "/api/news/**").hasRole("ADMINISTRADOR")
+                        .requestMatchers(HttpMethod.PUT, "/api/news/**").hasRole("ADMINISTRADOR")
+
+                        .requestMatchers(HttpMethod.GET, "api/calendario-vacinacao/").permitAll()
                         .requestMatchers(HttpMethod.POST, "api/calendario-vacinacao").hasRole("ADMINISTRADOR")
                         .requestMatchers(HttpMethod.DELETE, "api/calendario-vacinacao/**").hasRole("ADMINISTRADOR")
 
