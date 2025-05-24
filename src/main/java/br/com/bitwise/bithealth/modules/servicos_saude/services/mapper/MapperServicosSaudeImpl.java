@@ -35,7 +35,8 @@ public class MapperServicosSaudeImpl implements MapperServicosSaude {
                 servicosSaudeSalvo.getNome(),
                 servicosSaudeSalvo.getDescricao(),
                 servicosSaudeSalvo.getHorarioInicio(),
-                servicosSaudeSalvo.getHorarioFim()
+                servicosSaudeSalvo.getHorarioFim(),
+                servicosSaudeSalvo.getUnidadeSaude().getNome()
         );
     }
 }
