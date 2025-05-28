@@ -5,5 +5,4 @@ import br.com.bitwise.bithealth.modules.user.dto.UsuarioDTO;
 
 public interface RegistroService {
     UsuarioDTO registrarNovoUsuario(RegistroUsuarioDTO registroDTO);
-
 }
