@@ -70,6 +70,9 @@ public class SecurityConfig {
 
                         .requestMatchers(HttpMethod.GET, "api/doctors/**").permitAll()
 
+                        .requestMatchers(HttpMethod.POST, "/api/reset/forgot-password").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/reset/reset-password").permitAll()
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
