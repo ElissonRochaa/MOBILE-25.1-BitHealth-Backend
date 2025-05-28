@@ -4,7 +4,7 @@ import br.com.bitwise.bithealth.modules.user.resetPassword.dto.ForgotPasswordReq
 import br.com.bitwise.bithealth.modules.user.resetPassword.dto.ResetPasswordRequest;
 import br.com.bitwise.bithealth.modules.user.resetPassword.exceptions.InvalidTokenException;
 import br.com.bitwise.bithealth.modules.user.resetPassword.exceptions.TokenExpiredException;
-import br.com.bitwise.bithealth.modules.user.service.RegistroService;
+import br.com.bitwise.bithealth.modules.user.service.ForgotPasswordServiceI;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -20,14 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/reset")
 @RequiredArgsConstructor
 public class ResetPasswordController {
-    private final RegistroService registroService;
+    private final ForgotPasswordServiceI forgotPasswordService;
 
     private static final Logger logger = LoggerFactory.getLogger(ResetPasswordController.class);
 
     @PostMapping("/forgot-password")
     public ResponseEntity<String> handleForgotPassword(@RequestBody @Valid ForgotPasswordRequest forgotPasswordRequest) {
         try {
-            registroService.initiatePasswordResetProcess(forgotPasswordRequest.email());
+            forgotPasswordService.initiatePasswordResetProcess(forgotPasswordRequest.email());
             return ResponseEntity.ok("Se o seu e-mail estiver cadastrado em nosso sistema, você receberá um link para redefinir sua senha.");
         } catch (Exception e) {
             logger.error("Erro inesperado durante a solicitação de redefinição de senha para o email [PROTEGIDO]: ", e);
@@ -38,7 +38,7 @@ public class ResetPasswordController {
     @PostMapping("/reset-password")
     public ResponseEntity<String> handleResetPassword(@RequestBody @Valid ResetPasswordRequest resetPasswordRequest) {
         try {
-            registroService.finalizePasswordReset(resetPasswordRequest.token(), resetPasswordRequest.newPassword());
+            forgotPasswordService.finalizePasswordReset(resetPasswordRequest.token(), resetPasswordRequest.newPassword());
             return ResponseEntity.ok("Sua senha foi redefinida com sucesso.");
         } catch (InvalidTokenException | TokenExpiredException e) {
             logger.warn("Tentativa de redefinição de senha falhou: {}", e.getMessage());
