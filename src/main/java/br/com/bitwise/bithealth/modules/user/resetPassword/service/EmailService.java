@@ -19,11 +19,7 @@ public class EmailService {
     @Value("${spring.mail.username}")
     private String fromEmail;
 
-    @Value("${app.frontend.reset-url}")
-    private String frontendResetUrl;
-
     public void sendPasswordResetEmail(String toEmail, String token) {
-        String resetLink = frontendResetUrl + "?token=" + token;
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(fromEmail);
@@ -33,7 +29,7 @@ public class EmailService {
                 "Olá,\n\n" +
                         "Você solicitou a redefinição da sua senha para a plataforma BitHealth.\n" +
                         "Para criar uma nova senha, por favor, clique no link abaixo. Este link é válido por 1 hora:\n" +
-                        resetLink + "\n\n" +
+                        token + "\n\n" +
                         "Se você não fez esta solicitação, pode ignorar este e-mail.\n\n" +
                         "Atenciosamente,\n" +
                         "Equipe BitHealth"
