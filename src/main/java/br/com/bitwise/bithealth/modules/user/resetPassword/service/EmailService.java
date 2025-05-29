@@ -28,7 +28,7 @@ public class EmailService {
         message.setText(
                 "Olá,\n\n" +
                         "Você solicitou a redefinição da sua senha para a plataforma BitHealth.\n" +
-                        "Para criar uma nova senha, por favor, clique no link abaixo. Este link é válido por 1 hora:\n" +
+                        "Para criar uma nova senha, por favor, informe o token abaixo. Este token é válido por 1 hora:\n" +
                         token + "\n\n" +
                         "Se você não fez esta solicitação, pode ignorar este e-mail.\n\n" +
                         "Atenciosamente,\n" +
