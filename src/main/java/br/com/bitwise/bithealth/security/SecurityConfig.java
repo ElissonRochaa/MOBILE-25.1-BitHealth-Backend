@@ -36,10 +36,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .cors().configurationSource(corsConfigurationSource())
-                .and()
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(SWAGGER_PERMITIONS_LIST).permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
@@ -64,11 +63,12 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/news/**").hasRole("ADMINISTRADOR")
                         .requestMatchers(HttpMethod.PUT, "/api/news/**").hasRole("ADMINISTRADOR")
 
-                        .requestMatchers(HttpMethod.GET, "api/calendario-vacinacao/").permitAll()
-                        .requestMatchers(HttpMethod.POST, "api/calendario-vacinacao").hasRole("ADMINISTRADOR")
-                        .requestMatchers(HttpMethod.DELETE, "api/calendario-vacinacao/**").hasRole("ADMINISTRADOR")
+                        .requestMatchers(HttpMethod.GET, "/api/calendario-vacinacao/").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/calendario-vacinacao").hasRole("ADMINISTRADOR")
+                        .requestMatchers(HttpMethod.DELETE, "/api/calendario-vacinacao/**").hasRole("ADMINISTRADOR")
 
-                        .requestMatchers(HttpMethod.GET, "api/doctors/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/doctors").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/doctors/**").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "/api/reset/forgot-password").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/reset/reset-password").permitAll()
@@ -92,10 +92,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedOrigins(List.of("http://localhost:53145"));
+        corsConfiguration.setAllowedOrigins(List.of("*"));  // Permite todas as origens, ajuste conforme necessário
         corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
         corsConfiguration.setAllowedHeaders(List.of("Content-Type", "Authorization"));
-        corsConfiguration.setAllowCredentials(true);  // Permite enviar cookies e credenciais
+        corsConfiguration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);  // Aplica a configuração CORS a todas as rotas
