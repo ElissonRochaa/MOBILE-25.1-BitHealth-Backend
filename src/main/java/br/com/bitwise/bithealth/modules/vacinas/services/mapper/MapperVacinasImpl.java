@@ -16,7 +16,8 @@ public class MapperVacinasImpl implements MapperVacinas {
                 vacinasRequest.vacina(),
                 vacinasRequest.idade(),
                 vacinasRequest.doses(),
-                vacinasRequest.doencasEvitadas()
+                vacinasRequest.doencasEvitadas(),
+                vacinasRequest.faixaEtaria()
         );
     }
 
@@ -27,7 +28,8 @@ public class MapperVacinasImpl implements MapperVacinas {
                 vacinas.getVacina(),
                 vacinas.getDoses(),
                 vacinas.getIdade(),
-                vacinas.getDoencasEvitadas()
+                vacinas.getDoencasEvitadas(),
+                vacinas.getFaixaEtaria()
         );
     }
 }

@@ -1,6 +1,7 @@
 package br.com.bitwise.bithealth.modules.vacinas.dto;
 
 import br.com.bitwise.bithealth.modules.vacinas.model.Enums.Doses;
+import br.com.bitwise.bithealth.modules.vacinas.model.Enums.FaixaEtaria;
 import jakarta.validation.constraints.NotNull;
 
 public record VacinasRequest(
@@ -15,8 +16,10 @@ public record VacinasRequest(
         String idade,
 
         @NotNull(message = "O campo doenças é obrigatorio")
-        String doencasEvitadas
+        String doencasEvitadas,
 
+        @NotNull(message = "O campo faixa etaria é obrigatorio")
+        FaixaEtaria faixaEtaria
 
 ) {
 }

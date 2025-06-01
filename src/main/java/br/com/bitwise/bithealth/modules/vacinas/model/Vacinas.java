@@ -2,6 +2,7 @@ package br.com.bitwise.bithealth.modules.vacinas.model;
 
 
 import br.com.bitwise.bithealth.modules.vacinas.model.Enums.Doses;
+import br.com.bitwise.bithealth.modules.vacinas.model.Enums.FaixaEtaria;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,11 +34,16 @@ public class Vacinas {
     @Column(name = "doencas_evitadas")
     private String doencasEvitadas;
 
-    public Vacinas(String vacina, String idade, Doses doses, String doencasEvitadas) {
+    @Enumerated(EnumType.STRING)
+    @Column(name = "faixa_etaria")
+    private FaixaEtaria faixaEtaria;
+
+    public Vacinas(String vacina, String idade, Doses doses, String doencasEvitadas, FaixaEtaria faixaEtaria) {
         this.vacina = vacina;
         this.idade = idade;
         this.doses = doses;
         this.doencasEvitadas = doencasEvitadas;
+        this.faixaEtaria = faixaEtaria;
     }
 
 

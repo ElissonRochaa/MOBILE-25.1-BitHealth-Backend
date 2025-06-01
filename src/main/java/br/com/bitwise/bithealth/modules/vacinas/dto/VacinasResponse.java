@@ -1,6 +1,7 @@
 package br.com.bitwise.bithealth.modules.vacinas.dto;
 
 import br.com.bitwise.bithealth.modules.vacinas.model.Enums.Doses;
+import br.com.bitwise.bithealth.modules.vacinas.model.Enums.FaixaEtaria;
 
 public record VacinasResponse(
 
@@ -8,7 +9,8 @@ public record VacinasResponse(
         String vacina,
         Doses doses,
         String idade,
-        String doencasEvitadas
+        String doencasEvitadas,
+        FaixaEtaria faixaEtaria
 
 ) {
 }
