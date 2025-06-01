@@ -67,6 +67,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/calendario-vacinacao").hasRole("ADMINISTRADOR")
                         .requestMatchers(HttpMethod.DELETE, "/api/calendario-vacinacao/**").hasRole("ADMINISTRADOR")
 
+                        .requestMatchers(HttpMethod.GET, "/api/vacinas/").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/vacinas").hasRole("ADMINISTRADOR")
+                        .requestMatchers(HttpMethod.DELETE, "/api/vacinas/**").hasRole("ADMINISTRADOR")
+
                         .requestMatchers(HttpMethod.GET, "/api/doctors").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/doctors/**").permitAll()
 

@@ -20,6 +20,9 @@ import br.com.bitwise.bithealth.modules.unidade_saude.repository.UnidadeSaudeRep
 import br.com.bitwise.bithealth.modules.user.model.ENUM.TipoUsuario;
 import br.com.bitwise.bithealth.modules.user.model.Usuario;
 import br.com.bitwise.bithealth.modules.user.repository.UsuarioRepository;
+import br.com.bitwise.bithealth.modules.vacinas.model.Enums.Doses;
+import br.com.bitwise.bithealth.modules.vacinas.model.Vacinas;
+import br.com.bitwise.bithealth.modules.vacinas.repository.VacinasRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -42,6 +45,7 @@ public class DataInitializer {
     private final NewsRepository newsRepository;
     private final ServicosSaudeRepository servicosSaudeRepository;
     private final CalendarioVacinacaoRepository calendarioVacinacaoRepository;
+    private final VacinasRepository vacinasRepository;
 
     @PostConstruct
     public void init() {
@@ -73,9 +77,9 @@ public class DataInitializer {
         System.out.println("Populando dados iniciais de servicos");
         populateServicos(unidades);
         System.out.println("Dados de servicos populados com sucesso");
-        System.out.println("Populando dados iniciais de vacinacao");
-        populateCalendarioVacinacao();
-        System.out.println("Dados de vacinacao populados com sucesso");
+        System.out.println("Populando dados iniciais de vacinas");
+        populateVacinas();
+        System.out.println("Dados de vacinas populados com sucesso");
 
 
     }
@@ -362,63 +366,50 @@ public class DataInitializer {
 
     }
 
-    private void populateCalendarioVacinacao() {
-        String dataInicioPadrao = "01/01/2025";
-        String dataFimPadrao = "31/12/2025";
-        StatusVacinacao statusPadrao = StatusVacinacao.ANDAMENTO;
-
-        // Crianças
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("BCG", 0, 0, "Ao nascer - Dose única. Protege contra formas graves de tuberculose.", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Hepatite B (Pediátrica)", 0, 0, "Ao nascer - 1ª dose. Esquema de doses subsequentes (ex: 1 e 6 meses).", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Pentavalente", 0, 0, "Aos 2 meses - 1ª dose (DTP/Hib/HB).", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Poliomielite (VIP)", 0, 0, "Aos 2 meses - 1ª dose (Vacina Inativada Poliomielite).", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Pneumocócica 10-valente", 0, 0, "Aos 2 meses - 1ª dose.", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Rotavírus Humano", 0, 0, "Aos 2 meses - 1ª dose.", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Meningocócica C (conjugada)", 0, 0, "Aos 3 meses - 1ª dose.", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Pentavalente", 0, 0, "Aos 4 meses - 2ª dose (DTP/Hib/HB).", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Poliomielite (VIP)", 0, 0, "Aos 4 meses - 2ª dose (Vacina Inativada Poliomielite).", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Pneumocócica 10-valente", 0, 0, "Aos 4 meses - 2ª dose.", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Rotavírus Humano", 0, 0, "Aos 4 meses - 2ª dose.", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Meningocócica C (conjugada)", 0, 0, "Aos 5 meses - 2ª dose.", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Pentavalente", 0, 0, "Aos 6 meses - 3ª dose (DTP/Hib/HB).", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Poliomielite (VOP)", 0, 0, "Aos 6 meses - 3ª dose (Vacina Oral Poliomielite).", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Covid-19 (Pediátrica)", 0, 4, "A partir de 6 meses - 1ª dose (conforme esquema aprovado e disponibilidade).", dataInicioPadrao, dataFimPadrao, StatusVacinacao.EMBREVE)); // Ajustar idadeMax e status conforme realidade
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Covid-19 (Pediátrica)", 0, 4, "A partir de 7 meses (ou conforme intervalo) - 2ª dose.", dataInicioPadrao, dataFimPadrao, StatusVacinacao.EMBREVE));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Febre Amarela", 0, 0, "Aos 9 meses - 1 dose (para áreas com recomendação).", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Pneumocócica 10-valente", 1, 1, "Aos 12 meses - Reforço.", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Meningocócica C (conjugada)", 1, 1, "Aos 12 meses - Reforço.", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Tríplice Viral (SCR)", 1, 1, "Aos 12 meses - 1ª dose (Sarampo, Caxumba, Rubéola).", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("DTP (Tríplice Bacteriana)", 1, 1, "Aos 15 meses - 1º reforço.", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Poliomielite (VOP)", 1, 1, "Aos 15 meses - Reforço (Vacina Oral Poliomielite).", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Hepatite A (Pediátrica)", 1, 1, "Aos 15 meses - Dose única.", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Tetra Viral (SCRV) ou Varicela", 1, 1, "Aos 15 meses - 1 dose (Sarampo, Caxumba, Rubéola, Varicela).", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("DTP (Tríplice Bacteriana)", 4, 4, "Aos 4 anos - 2º reforço.", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Febre Amarela", 4, 4, "Aos 4 anos - Reforço (se necessário, conforme histórico e área).", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Varicela", 4, 4, "Aos 4 anos - 1 dose (se não vacinado com Tetra Viral ou Varicela anteriormente).", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Febre Amarela", 5, 5, "Aos 5 anos - Dose conforme histórico vacinal.", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Pneumocócica 23-valente", 5, 5, "A partir dos 5 anos - 2 doses (População Indígena ou condições específicas).", dataInicioPadrao, dataFimPadrao, StatusVacinacao.EMBREVE));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Difteria e Tétano (dT)", 7, 9, "A partir dos 7 anos - Conforme situação vacinal / Reforços.", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("HPV Quadrivalente", 9, 14, "Meninas: 9 a 14 anos. Meninos: 11 a 14 anos. Dose única (ou conforme PNI vigente).", dataInicioPadrao, dataFimPadrao, statusPadrao));
-
-        // Adolescentes (10-19 anos, algumas se sobrepõem ou continuam)
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Hepatite B", 10, 19, "Iniciar ou completar 3 doses (conforme sit. vacinal).", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Difteria e Tétano (dT)", 10, 19, "Iniciar ou completar 3 doses | Reforços a cada 10 anos.", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Febre Amarela", 10, 19, "Dose única ou reforço (conforme histórico e área de residência/viagem).", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Tríplice Viral (SCR)", 10, 19, "Iniciar ou completar 2 doses (conforme sit. vacinal).", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        // HPV já coberto acima (9-14 anos)
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Meningocócica ACWY (conjugada)", 11, 14, "Uma dose (entre 11 e 14 anos, conforme PNI).", dataInicioPadrao, dataFimPadrao, statusPadrao));
-
-        // Adultos (20 anos ou mais)
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Hepatite B", 20, 100, "3 doses (conforme histórico vacinal).", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Difteria e Tétano (dT)", 20, 100, "3 doses (conforme histórico vacinal) | Reforços a cada 10 anos.", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Febre Amarela", 20, 59, "Dose conforme histórico e área de residência/viagem.", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Febre Amarela", 60, 100, "Avaliar risco/benefício (se não vacinado anteriormente ou sem comprovante).", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("HPV Quadrivalente", 20, 45, "Dose conforme orientação médica para grupos específicos (ex: imunossuprimidos).", dataInicioPadrao, dataFimPadrao, StatusVacinacao.EMBREVE));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("dTpa (Tríplice Bacteriana Acelular Adulto)", 18, 100, "1 dose a cada gestação | Profissionais de saúde (conforme recomendação).", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Tríplice Viral (SCR)", 20, 29, "2 doses (se não vacinado anteriormente ou esquema incompleto).", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Tríplice Viral (SCR)", 30, 59, "1 dose (se não vacinado anteriormente).", dataInicioPadrao, dataFimPadrao, statusPadrao));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Pneumocócica 23-valente", 60, 100, "Para idosos (60+), especialmente institucionalizados ou com comorbidades (conforme recomendação).", dataInicioPadrao, dataFimPadrao, StatusVacinacao.EMBREVE));
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("Gripe (Influenza)", 0, 100, "Campanha Anual para grupos prioritários (Crianças 6m-5a, Gestantes, Idosos 60+, etc). Datas variáveis.", "01/04/2025", "31/07/2025", StatusVacinacao.ANDAMENTO)); // Exemplo de campanha sazonal
-        calendarioVacinacaoRepository.save(new CalendarioVacinacao("COVID-19 (Reforço)", 5, 100, "Doses de reforço conforme calendário nacional e tipo de vacina.", dataInicioPadrao, dataFimPadrao, StatusVacinacao.ANDAMENTO));
+    private void populateVacinas() {
+        vacinasRepository.save(new Vacinas("BCG", "Ao nascer", Doses.UNICA, "Tuberculose (formas graves)"));
+        vacinasRepository.save(new Vacinas("Hepatite B (Pediátrica)", "Ao nascer", Doses.PRIMEIRA, "Hepatite B"));
+        vacinasRepository.save(new Vacinas("Pentavalente", "2 meses", Doses.PRIMEIRA, "Difteria, Tétano, Coqueluche, Hepatite B, Haemophilus influenzae B"));
+        vacinasRepository.save(new Vacinas("Poliomielite (VIP)", "2 meses", Doses.PRIMEIRA, "Poliomielite"));
+        vacinasRepository.save(new Vacinas("Pneumocócica 10-valente", "2 meses", Doses.PRIMEIRA, "Pneumonias, meningites e otites"));
+        vacinasRepository.save(new Vacinas("Rotavírus Humano", "2 meses", Doses.PRIMEIRA, "Diarreia por rotavírus"));
+        vacinasRepository.save(new Vacinas("Meningocócica C (conjugada)", "3 meses", Doses.PRIMEIRA, "Meningite C"));
+        vacinasRepository.save(new Vacinas("Pentavalente", "4 meses", Doses.SEGUNDA, "Difteria, Tétano, Coqueluche, Hepatite B, Haemophilus influenzae B"));
+        vacinasRepository.save(new Vacinas("Poliomielite (VIP)", "4 meses", Doses.SEGUNDA, "Poliomielite"));
+        vacinasRepository.save(new Vacinas("Pneumocócica 10-valente", "4 meses", Doses.SEGUNDA, "Pneumonias, meningites e otites"));
+        vacinasRepository.save(new Vacinas("Rotavírus Humano", "4 meses", Doses.SEGUNDA, "Diarreia por rotavírus"));
+        vacinasRepository.save(new Vacinas("Meningocócica C (conjugada)", "5 meses", Doses.SEGUNDA, "Meningite C"));
+        vacinasRepository.save(new Vacinas("Pentavalente", "6 meses", Doses.TERCEIRA, "Difteria, Tétano, Coqueluche, Hepatite B, Haemophilus influenzae B"));
+        vacinasRepository.save(new Vacinas("Poliomielite (VOP)", "6 meses", Doses.TERCEIRA, "Poliomielite"));
+        vacinasRepository.save(new Vacinas("Covid-19 (Pediátrica)", "6 meses", Doses.PRIMEIRA, "COVID-19"));
+        vacinasRepository.save(new Vacinas("Covid-19 (Pediátrica)", "7 meses", Doses.SEGUNDA, "COVID-19"));
+        vacinasRepository.save(new Vacinas("Febre Amarela", "9 meses", Doses.UNICA, "Febre amarela"));
+        vacinasRepository.save(new Vacinas("Pneumocócica 10-valente", "12 meses", Doses.REFORCO, "Pneumonias, meningites e otites"));
+        vacinasRepository.save(new Vacinas("Meningocócica C (conjugada)", "12 meses", Doses.REFORCO, "Meningite C"));
+        vacinasRepository.save(new Vacinas("Tríplice Viral (SCR)", "12 meses", Doses.PRIMEIRA, "Sarampo, Caxumba, Rubéola"));
+        vacinasRepository.save(new Vacinas("DTP (Tríplice Bacteriana)", "15 meses", Doses.REFORCO, "Difteria, Tétano e Coqueluche"));
+        vacinasRepository.save(new Vacinas("Poliomielite (VOP)", "15 meses", Doses.REFORCO, "Poliomielite"));
+        vacinasRepository.save(new Vacinas("Hepatite A (Pediátrica)", "15 meses", Doses.UNICA, "Hepatite A"));
+        vacinasRepository.save(new Vacinas("Tetra Viral (SCRV) ou Varicela", "15 meses", Doses.PRIMEIRA, "Sarampo, Caxumba, Rubéola e Varicela"));
+        vacinasRepository.save(new Vacinas("DTP (Tríplice Bacteriana)", "4 anos", Doses.REFORCO, "Difteria, Tétano e Coqueluche"));
+        vacinasRepository.save(new Vacinas("Febre Amarela", "4 anos", Doses.REFORCO, "Febre amarela"));
+        vacinasRepository.save(new Vacinas("Varicela", "4 anos", Doses.UNICA, "Varicela (catapora)"));
+        vacinasRepository.save(new Vacinas("Febre Amarela", "5 anos", Doses.REFORCO, "Febre amarela"));
+        vacinasRepository.save(new Vacinas("Pneumocócica 23-valente", "5 anos", Doses.SEGUNDA, "Doenças pneumocócicas para grupos de risco"));
+        vacinasRepository.save(new Vacinas("Difteria e Tétano (dT)", "7 anos ou mais", Doses.REFORCO, "Difteria e Tétano"));
+        vacinasRepository.save(new Vacinas("HPV Quadrivalente", "9 a 14 anos", Doses.UNICA, "HPV, câncer do colo do útero, verrugas genitais"));
+        vacinasRepository.save(new Vacinas("Hepatite B", "10 anos ou mais", Doses.TERCEIRA, "Hepatite B"));
+        vacinasRepository.save(new Vacinas("Febre Amarela", "10 anos ou mais", Doses.REFORCO, "Febre amarela"));
+        vacinasRepository.save(new Vacinas("Tríplice Viral (SCR)", "10 anos ou mais", Doses.SEGUNDA, "Sarampo, Caxumba, Rubéola"));
+        vacinasRepository.save(new Vacinas("Meningocócica ACWY (conjugada)", "11 a 14 anos", Doses.UNICA, "Meningite ACWY"));
+        vacinasRepository.save(new Vacinas("Difteria e Tétano (dT)", "20 anos ou mais", Doses.REFORCO, "Difteria e Tétano"));
+        vacinasRepository.save(new Vacinas("HPV Quadrivalente", "20 a 45 anos", Doses.UNICA, "HPV, câncer do colo do útero, verrugas genitais"));
+        vacinasRepository.save(new Vacinas("dTpa (Tríplice Bacteriana Acelular Adulto)", "18 anos ou mais", Doses.UNICA, "Difteria, Tétano e Coqueluche"));
+        vacinasRepository.save(new Vacinas("Tríplice Viral (SCR)", "20 a 29 anos", Doses.REFORCO, "Sarampo, Caxumba, Rubéola"));
+        vacinasRepository.save(new Vacinas("Tríplice Viral (SCR)", "30 a 59 anos", Doses.UNICA, "Sarampo, Caxumba, Rubéola"));
+        vacinasRepository.save(new Vacinas("Pneumocócica 23-valente", "60 anos ou mais", Doses.SEGUNDA, "Doenças pneumocócicas para idosos"));
+        vacinasRepository.save(new Vacinas("Gripe (Influenza)", "Anual", Doses.REFORCO, "Gripe"));
+        vacinasRepository.save(new Vacinas("COVID-19 (Reforço)", "5 anos ou mais", Doses.REFORCO, "COVID-19"));
     }
+
 }
