@@ -29,7 +29,8 @@ public class EmailService {
                 "Olá,\n\n" +
                         "Você solicitou a redefinição da sua senha para a plataforma BitHealth.\n" +
                         "Para criar uma nova senha, por favor, informe o token abaixo. Este token é válido por 1 hora:\n" +
-                        token + "\n\n" +
+                        "Entre nesse link: http://localhost:53145/#/resetar-senha" + "\n\n" +
+                        "Insira o token: " + token + "\n\n" +
                         "Se você não fez esta solicitação, pode ignorar este e-mail.\n\n" +
                         "Atenciosamente,\n" +
                         "Equipe BitHealth"
