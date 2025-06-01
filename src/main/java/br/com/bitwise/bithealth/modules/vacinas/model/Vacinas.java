@@ -26,6 +26,7 @@ public class Vacinas {
     @Column(name = "idade")
     private String idade;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "doses")
     private Doses doses;
 

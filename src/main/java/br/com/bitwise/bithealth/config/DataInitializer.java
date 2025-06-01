@@ -80,6 +80,9 @@ public class DataInitializer {
         System.out.println("Populando dados iniciais de vacinas");
         populateVacinas();
         System.out.println("Dados de vacinas populados com sucesso");
+        System.out.println("Populando dados iniciais de campanhas");
+        populateCalendarioVacinacao();
+        System.out.println("Dados de campanhas populados com sucesso");
 
 
     }
@@ -410,6 +413,52 @@ public class DataInitializer {
         vacinasRepository.save(new Vacinas("Pneumocócica 23-valente", "60 anos ou mais", Doses.SEGUNDA, "Doenças pneumocócicas para idosos"));
         vacinasRepository.save(new Vacinas("Gripe (Influenza)", "Anual", Doses.REFORCO, "Gripe"));
         vacinasRepository.save(new Vacinas("COVID-19 (Reforço)", "5 anos ou mais", Doses.REFORCO, "COVID-19"));
+    }
+
+    private void populateCalendarioVacinacao() {
+        CalendarioVacinacao campanha1 = new CalendarioVacinacao(
+                "Vacina Dengue",
+                1,
+                100,
+                "Campanha de vacinação contra a Dengue para ampla faixa etária.",
+                "14/05/2025",
+                "25/06/2025",
+                StatusVacinacao.EMBREVE
+        );
+        calendarioVacinacaoRepository.save(campanha1);
+
+        CalendarioVacinacao campanha2 = new CalendarioVacinacao(
+                "Vacina Gripe (Idosos)",
+                60,
+                100,
+                "Campanha anual de vacinação contra a gripe para a população idosa (60 anos ou mais).",
+                "01/04/2025",
+                "31/05/2025",
+                StatusVacinacao.ANDAMENTO
+        );
+        calendarioVacinacaoRepository.save(campanha2);
+
+        CalendarioVacinacao campanha3 = new CalendarioVacinacao(
+                "Vacina HPV (Adolescentes)",
+                9,
+                14,
+                "Campanha de vacinação contra o HPV para meninas de 9 a 14 anos e meninos de 11 a 14 anos.",
+                "10/03/2025",
+                "30/04/2025",
+                StatusVacinacao.REALIZADO
+        );
+        calendarioVacinacaoRepository.save(campanha3);
+
+        CalendarioVacinacao campanha4 = new CalendarioVacinacao(
+                "Vacina Sarampo (Bloqueio)",
+                1,
+                49,
+                "Campanha de bloqueio contra o Sarampo devido a surto localizado. Verifique as áreas de cobertura.",
+                "01/06/2025",
+                "15/06/2025",
+                StatusVacinacao.EMBREVE
+        );
+        calendarioVacinacaoRepository.save(campanha4);
     }
 
 }
