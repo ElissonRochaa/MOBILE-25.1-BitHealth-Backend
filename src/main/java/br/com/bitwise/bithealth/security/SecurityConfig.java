@@ -102,7 +102,7 @@ public class SecurityConfig {
         corsConfiguration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration);  // Aplica a configuração CORS a todas as rotas
+        source.registerCorsConfiguration("/**", corsConfiguration);
 
         return source;
     }

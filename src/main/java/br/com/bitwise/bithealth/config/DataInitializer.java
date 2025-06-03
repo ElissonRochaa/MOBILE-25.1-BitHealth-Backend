@@ -95,9 +95,9 @@ public class DataInitializer {
                 "Cardiologia",
                 unidades.get(0),
                 "Segunda-feira",
-                "08:00",
-                "17:00",
-                "Plantonista"
+                "09:00",
+                "12:00",
+                "Consultório Geral"
         );
         Doctor medico2 = new Doctor(
                 "Dra. Maria Oliveira",
@@ -105,9 +105,9 @@ public class DataInitializer {
                 "Pediatria",
                 unidades.get(1),
                 "Terça-feira",
-                "08:00",
-                "17:00",
-                "Plantonista"
+                "09:00",
+                "12:00",
+                "Consultório Geral"
         );
         Doctor medico3 = new Doctor(
                 "Dr. João Santos",
@@ -115,13 +115,90 @@ public class DataInitializer {
                 "Dermatologia",
                 unidades.get(2),
                 "Quarta-feira",
-                "08:00",
-                "17:00",
+                "09:00",
+                "12:00",
+                "Consultório Geral"
+        );
+        Doctor medico4 = new Doctor(
+                "Dra. Ana Costa",
+                "345678",
+                "Clinica Geral",
+                unidades.get(3),
+                "Quinta-feira",
+                "04:00",
+                "23:00",
+                "Plantonista"
+        );
+        Doctor medico5 = new Doctor(
+                "Dr. Lucas Pereira",
+                "901234",
+                "Clinica Geral",
+                unidades.get(0),
+                "Sexta-feira",
+                "04:00",
+                "23:00",
+                "Plantonista"
+        );
+        Doctor medico6 = new Doctor(
+                "Dra. Fernanda Lima",
+                "567890",
+                "Clinica Geral",
+                unidades.get(1),
+                "Sábado",
+                "04:00",
+                "23:00",
+                "Plantonista"
+        );
+        Doctor medico7 = new Doctor(
+                "Dr. Carlos Almeida",
+                "234567",
+                "Clinica Geral",
+                unidades.get(2),
+                "Domingo",
+                "04:00",
+                "23:00",
+                "Plantonista"
+        );
+        Doctor medico8 = new Doctor(
+                "Dra. Beatriz Rocha",
+                "890123",
+                "Clinica Geral",
+                unidades.get(3),
+                "Segunda-feira",
+                "04:00",
+                "23:00",
+                "Plantonista"
+        );
+        Doctor medico9 = new Doctor(
+                "Dr. Rafael Martins",
+                "456789",
+                "Clinica Geral",
+                unidades.get(0),
+                "Terça-feira",
+                "04:00",
+                "23:00",
+                "Plantonista"
+        );
+        Doctor medico10 = new Doctor(
+                "Dra. Juliana Souza",
+                "123789",
+                "Clinica Geral",
+                unidades.get(1),
+                "Quarta-feira",
+                "04:00",
+                "23:00",
                 "Plantonista"
         );
         doctorRepository.save(medico1);
         doctorRepository.save(medico2);
         doctorRepository.save(medico3);
+        doctorRepository.save(medico4);
+        doctorRepository.save(medico5);
+        doctorRepository.save(medico6);
+        doctorRepository.save(medico7);
+        doctorRepository.save(medico8);
+        doctorRepository.save(medico9);
+        doctorRepository.save(medico10);
     }
 
     private List<UnidadeSaude> populateUnidadeSaude() {
